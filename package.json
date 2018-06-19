@@ -1,0 +1,14 @@
+{
+  "name": "electronproject",
+  "version": "1.0.0",
+  "description": "Electron Calendar Project",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Martin Medovarsky",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^2.0.2"
+  }
+}
