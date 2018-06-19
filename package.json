@@ -2,7 +2,7 @@
   "name": "electronproject",
   "version": "1.0.0",
   "description": "Electron Calendar Project",
-  "main": "main.js",
+  "main": "dist/main.js",
   "scripts": {
     "start": "electron ."
   },
