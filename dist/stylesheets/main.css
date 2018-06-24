@@ -1,3 +1,128 @@
-h1{
+html{
+    height:500px;
+}
+
+body{
+    max-width:900px;
+    max-height:500px;
+    margin:0;
+    padding-left:25px;
+    background-color:#FAFAFA;
+}
+
+h2{
     font-family:'Nunito', sans-serif;
+}
+
+h5{
+    margin:0;
+    font-family:'Nunito',sans-serif;
+}
+
+h6{
+    margin:0;
+    margin-left:10px;
+}
+
+.mainHeading{
+    margin-top:10px;
+}
+
+#datePicker{
+    height:200px;
+    background-color:#EFEFEF;
+}
+
+#selectView{
+    background-color:#EFEFEF;
+}
+
+#utility{
+}
+
+#createEventButt{
+    height:90px;
+    width:130px;
+    font-size:0.75em
+}
+
+#printScheduleButt{
+    margin-top:20px;
+    height:90px;
+    width:130px;
+    font-size:0.75em
+}
+
+.pickerStart{
+    font-family:'Nunito', sans-serif;
+    font-weight:600;
+}
+
+.pickerDays{
+    font-family:'Nunito', sans-serif;
+    font-weight:600;
+    background-color:blueviolet;
+    margin-left:19px;
+}
+
+.bar{
+    width:100%;
+    background-color:#607D8B;
+    text-align:center;
+    color:#FFFFFF;
+    font-size:0.75em;
+}
+
+.selectViewButtons{
+    width:85%;
+    height:30px;
+    margin-top:12px;
+    margin-left:10px;
+    font-size:0.75em;
+}
+
+#monthButt{
+}
+
+#weekButt{
+}
+
+#dayButt{
+}
+
+#eventsButt{
+}
+
+#upcomingMini{
+    background-color:#EFEFEF;
+}   
+
+.upcomingSide1{
+    margin-bottom:9px;
+    text-align:center;
+    font-size:0.85em;
+    background-color:#FFFFFF;
+    border-radius:3px;
+}
+
+.upcomingSide2{
+    margin-bottom:9px;
+    text-align:center;
+    font-size:0.85em;
+    background-color:#FFFFFF;
+    border-radius:3px;
+}
+
+#viewAllButt{
+    font-size:0.75em;
+    font-weight:600;
+    margin-top:-15px;
+    margin-bottom:-5px;
+    text-align:center;
+    width:100%;
+    color:#7C4DFF;
+}
+
+#viewAllButt:active{
+    color:#FAFAFA
 }

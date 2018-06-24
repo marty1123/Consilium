@@ -1,4 +1,6 @@
+var $ = require("jquery");
 const {app, BrowserWindow} = require('electron')
+//window.$ = window.jQuery = require('jquery');
   
   // Keep a global reference of the window object, if you don't, the window will
   // be closed automatically when the JavaScript object is garbage collected.
@@ -6,13 +8,17 @@ const {app, BrowserWindow} = require('electron')
   
   function createWindow () {
     // Create the browser window.
-    win = new BrowserWindow({width: 1400, height: 1000})
+    var viewport = require('electron-viewport')(950, 1025, {resizable:false})
+    var win = viewport.getWindow()
+
+    //win = new BrowserWindow({width: 950, height: 1025, resizable:false})
+    
   
     // and load the index.html of the app.
     win.loadFile('index.html')
-  
-    // Open the DevTools.
-    win.webContents.openDevTools()
+
+    //Removes menu bar from window.
+    //win.setMenu(null)
   
     // Emitted when the window is closed.
     win.on('closed', () => {
@@ -47,3 +53,14 @@ const {app, BrowserWindow} = require('electron')
   
   // In this file you can include the rest of your app's specific main process
   // code. You can also put them in separate files and require them here.
+
+
+  ///////////////////////////////////////////////////////////////////////////////////////
+
+  function startLoad(){
+    console.log("Test")
+  }
+
+  function viewAllEvents(){
+    console.log("VIEWALLEVENTS")
+  }

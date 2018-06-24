@@ -3,21 +3,74 @@
     <head>
       <meta charset="UTF-8">
         <link rel="stylesheet" href="dist/stylesheets/mdl/material.min.css">
+        <script src="dist/stylesheets/mdl/material.min.js"></script>
         <link rel="stylesheet" href="dist/stylesheets/font.css">
         <link rel="stylesheet" href="dist/stylesheets/main.css" type="text/css">
-        <script src="dist/stylesheets/mdl/material.min.js"></script>
-      <title>Hello World! :)</title>
+        <script src="dist/main.js"></script>
+      <title>Consilium</title>
     </head>
-    <body>
-      <h1>Hello World!</h1>
-      We are using node <script>document.write(process.versions.node)</script>,
-      Chrome <script>document.write(process.versions.chrome)</script>,
-      and Electron <script>document.write(process.versions.electron)</script>.
+    <body onload="startLoad()">
+      <div class="mainHeading">
+        <h2 style="display: inline">Consilium</h2>
+        <h5 style="display: inline">- Schedule Planning</h5>    
+      </div>
+
+      <h6>Week View</h6>
+
+      <div class="mdl-grid">
+          <div class="mdl-cell mdl-cell--3-col mdl-shadow--2dp" id="datePicker">
+            <div class="mdl-grid">
+              <div class="mdl-cell mdl-cell--1-col pickerStart">S</div>
+              <div class="mdl-cell mdl-cell--1-col pickerDays">M</div>
+              <div class="mdl-cell mdl-cell--1-col pickerDays">T</div>
+              <div class="mdl-cell mdl-cell--1-col pickerDays">W</div>
+              <div class="mdl-cell mdl-cell--1-col pickerDays">T</div>
+              <div class="mdl-cell mdl-cell--1-col pickerDays">F</div>
+              <div class="mdl-cell mdl-cell--1-col pickerDays">S</div>
+            </div>
+          </div>
+          <div class="mdl-cell mdl-cell--2-col mdl-shadow--2dp" id="selectView">
+            <div class="bar">Select View</div>
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary selectViewButtons" id="monthButt">
+              Month
+            </button>
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary selectViewButtons" id="weekButt">
+              Week
+            </button>
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary selectViewButtons" id="dayButt">
+              Day
+            </button>
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary selectViewButtons" id="eventsButt">
+              Events
+            </button>
+          </div>
+          <div class="mdl-cell mdl-cell--2-col" id="utility">
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" id="createEventButt">
+              Create Event
+            </button>
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" id="printScheduleButt">
+              Print Schedule
+            </button>
+          </div>
+          <div class="mdl-cell mdl-cell--5-col mdl-shadow--2dp" id="upcomingMini">
+            <div class="bar">Upcoming Events</div>
+            <div class="mdl-grid">
+              <div class="mdl-cell mdl-cell--6-col">
+                <div class="upcomingSide1 mdl-shadow--2dp">Event Name - 3 Days <br> (28/05/18)</div>
+                <div class="upcomingSide1 mdl-shadow--2dp">Event Name - 3 Days <br> (28/05/18)</div>
+                <div class="upcomingSide1 mdl-shadow--2dp">Event Name - 3 Days <br> (28/05/18)</div>
+              </div>
+              <div class="mdl-cell mdl-cell--6-col">
+                <div class="upcomingSide2 mdl-shadow--2dp">Event Name - 3 Days <br> (28/05/18)</div>
+                <div class="upcomingSide2 mdl-shadow--2dp">Event Name - 3 Days <br> (28/05/18)</div>
+                <div class="upcomingSide2 mdl-shadow--2dp">Event Name - 3 Days <br> (28/05/18)</div>
+              </div>
+              <h8 id="viewAllButt" onclick="viewAllEvents()">View All</h8>
+            </div>
+          </div>
+      </div>
 
       <br>
-      
-      <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
-        Button
-      </button>
+
     </body>
   </html>
