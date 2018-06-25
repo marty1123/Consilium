@@ -33,6 +33,37 @@ h6{
     background-color:#EFEFEF;
 }
 
+.pickerDays{
+    font-family:'Nunito', sans-serif;
+    font-weight:600;
+    margin:0;
+    width:11.1%;
+    margin-left:1.5%;
+    margin-right:1.5%;
+    text-align:center;
+}
+
+.pickerDatesDisplay{
+    font-family:'Nunito', sans-serif;
+    background-color:#FFFFFF;
+    margin:0;
+    width:11.1%;
+    margin-left:1.5%;
+    margin-right:1.5%;
+    text-align:center;
+}
+
+.datepickerrow{
+    margin-top:4%;
+    padding-bottom:0;
+    padding-top:0;
+}
+
+.datepickerbar{
+    padding-top:4px;
+    padding-bottom:4px;
+}
+
 #selectView{
     background-color:#EFEFEF;
 }
@@ -53,24 +84,23 @@ h6{
     font-size:0.75em
 }
 
-.pickerStart{
-    font-family:'Nunito', sans-serif;
-    font-weight:600;
-}
-
-.pickerDays{
-    font-family:'Nunito', sans-serif;
-    font-weight:600;
-    background-color:blueviolet;
-    margin-left:19px;
-}
-
 .bar{
     width:100%;
     background-color:#607D8B;
     text-align:center;
     color:#FFFFFF;
     font-size:0.75em;
+}
+
+.bottomBar{
+    width:100%;
+    background-color:#607D8B;
+    text-align:center;
+    color:#FFFFFF;
+    font-size:0.75em;
+    margin-top:3%;
+    padding-top:3px;
+    padding-bottom:3px;
 }
 
 .selectViewButtons{
