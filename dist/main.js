@@ -8,10 +8,10 @@ const {app, BrowserWindow} = require('electron')
   
   function createWindow () {
     // Create the browser window.
-    var viewport = require('electron-viewport')(950, 1025, {resizable:false})
-    var win = viewport.getWindow()
+    //var viewport = require('electron-viewport')(950, 1025, {resizable:false})
+    //var win = viewport.getWindow()
 
-    //win = new BrowserWindow({width: 950, height: 1025, resizable:false})
+    win = new BrowserWindow({width: 950, height: 1025,})
     
   
     // and load the index.html of the app.
