@@ -93,7 +93,6 @@ h6{
 }
 
 .bottomBar{
-    width:100%;
     background-color:#607D8B;
     text-align:center;
     color:#FFFFFF;
@@ -158,5 +157,24 @@ h6{
 }
 
 #leftPlayButt{
-  
+    width:10%;
+    font-size:4em;
+    transform: scale(-1, 1);
+}
+
+#rightPlayButt{
+    width:10%;
+    font-size:4em;
+}
+
+#rightPlayButt:active{
+    color:#EFEFEF
+}
+
+#leftPlayButt:active{
+    color:#EFEFEF
+}
+
+#datePickerDate{
+    width:80%;
 }
