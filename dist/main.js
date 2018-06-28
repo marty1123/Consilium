@@ -55,12 +55,17 @@ const {app, BrowserWindow} = require('electron')
   // code. You can also put them in separate files and require them here.
 
 
-  ///////////////////////////////////////////////////////////////////////////////////////
-
-  function startLoad(){
-    console.log("Test")
+function startLoad(){
+  console.log("Test");
+  setPickerDate();
   }
 
-  function viewAllEvents(){
-    console.log("VIEWALLEVENTS")
-  }
+function viewAllEvents(){
+  console.log("VIEWALLEVENTS");
+}
+
+function setPickerDate(){
+  var d = new Date();
+  var currentDate = d.getDate() + "/" + d.getMonth() + "/" + d.getFullYear();
+  console.log(currentDate)
+}

@@ -99,7 +99,7 @@ h6{
     font-size:0.75em;
     margin-top:3%;
     padding-top:3px;
-    padding-bottom:3px;
+    padding-bottom:2px;
 }
 
 .selectViewButtons{
@@ -152,6 +152,10 @@ h6{
     color:#7C4DFF;
 }
 
+#viewAllButt:hover{
+    cursor:pointer;
+}
+
 #viewAllButt:active{
     color:#FAFAFA
 }
@@ -165,6 +169,14 @@ h6{
 #rightPlayButt{
     width:10%;
     font-size:4em;
+}
+
+#rightPlayButt:hover{
+    cursor:pointer;
+}
+
+#leftPlayButt:hover{
+    cursor:pointer;
 }
 
 #rightPlayButt:active{
