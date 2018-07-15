@@ -57,15 +57,30 @@ const {app, BrowserWindow} = require('electron')
 
 function startLoad(){
   console.log("Test");
-  setPickerDate();
+  var selectd = new Date();
+  setPickerDate(selectd);
   }
 
 function viewAllEvents(){
   console.log("VIEWALLEVENTS");
 }
 
-function setPickerDate(){
-  var d = new Date();
-  var currentDate = d.getDate() + "/" + d.getMonth() + "/" + d.getFullYear();
-  console.log(currentDate)
+function setPickerDate(selectd){
+  const monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"];
+  var d = selectd;
+  var currentDate = d.getDate();
+  var currentMonth = d.getMonth() + 1;
+  var currentYear = d.getFullYear();
+  var firstDay = new Date(currentYear + "-" + currentMonth + "-01").getDay();
+  var monthAmount = new Date(currentYear, currentMonth, 0).getDate()
+  var currentMonthName = monthNames[currentMonth - 1]
+  console.log(currentDate,currentMonth,currentYear,firstDay,monthAmount)
+
+  for (i = 1 + firstDay; i <= monthAmount; i++){
+    document.getElementById("dpGrid" + parseInt(i)).innerHTML = i - firstDay 
+    console.log("Check")
+  }
+
+  document.getElementById("datePickerDate").innerHTML = currentMonthName + " " + currentYear;
 }
