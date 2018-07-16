@@ -51,8 +51,6 @@ const {app, BrowserWindow} = require('electron')
     }
   })
   
-  // In this file you can include the rest of your app's specific main process
-  // code. You can also put them in separate files and require them here.
 
 
 function startLoad(){
@@ -61,26 +59,59 @@ function startLoad(){
   setPickerDate(selectd);
   }
 
-function viewAllEvents(){
-  console.log("VIEWALLEVENTS");
-}
+
+var d = 0;
+var currentDate = 0;
+var currentMonth = 0;
+var currentYear = 0;
+var firstDay = 0;
+var monthAmount = 0;
+var currentMonthName = "";
+var monthNames = [];
 
 function setPickerDate(selectd){
-  const monthNames = ["January", "February", "March", "April", "May", "June",
+  monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"];
-  var d = selectd;
-  var currentDate = d.getDate();
-  var currentMonth = d.getMonth() + 1;
-  var currentYear = d.getFullYear();
-  var firstDay = new Date(currentYear + "-" + currentMonth + "-01").getDay();
-  var monthAmount = new Date(currentYear, currentMonth, 0).getDate()
-  var currentMonthName = monthNames[currentMonth - 1]
+  d = selectd;
+  currentDate = d.getDate();
+  currentMonth = d.getMonth() + 1;
+  currentYear = d.getFullYear();
+  generatePicker();
+}
+
+function generatePicker(){
+  firstDay = new Date(currentYear + "-" + currentMonth + "-01").getDay();
+  monthAmount = new Date(currentYear, currentMonth, 0).getDate()
+  currentMonthName = monthNames[currentMonth - 1]
   console.log(currentDate,currentMonth,currentYear,firstDay,monthAmount)
 
-  for (i = 1 + firstDay; i <= monthAmount; i++){
+  for (i = 1; i <= firstDay; i++){
+    document.getElementById("dpGrid" + parseInt(i)).innerHTML = " ";
+  }
+
+  for (i = 1 + firstDay; i <= monthAmount + firstDay; i++){
     document.getElementById("dpGrid" + parseInt(i)).innerHTML = i - firstDay 
     console.log("Check")
   }
 
+  /*for (i = 1 + monthAmount; i <= monthAmount + firstDay; i++){
+    document.getElementById("dpGrid" + parseInt(i)).innerHTML = " ";
+  }*/
+
   document.getElementById("datePickerDate").innerHTML = currentMonthName + " " + currentYear;
+}
+
+function addPickerMonth(){
+  if (currentMonth < 12){
+    currentMonth = currentMonth + 1;
+  } else {
+    currentYear = currentYear + 1;
+    currentMonth = currentMonth - 11;
+  }
+  generatePicker();
+
+} 
+
+function viewAllEvents(){
+  console.log("VIEWALLEVENTS");
 }
