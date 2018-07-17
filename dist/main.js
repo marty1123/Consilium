@@ -81,7 +81,7 @@ function setPickerDate(selectd){
 
 function generatePicker(){
   firstDay = new Date(currentYear + "-" + currentMonth + "-01").getDay();
-  monthAmount = new Date(currentYear, currentMonth, 0).getDate()
+  monthAmount = new Date(currentYear, currentMonth, 0).getDate();
   currentMonthName = monthNames[currentMonth - 1]
   console.log(currentDate,currentMonth,currentYear,firstDay,monthAmount)
 
@@ -90,13 +90,13 @@ function generatePicker(){
   }
 
   for (i = 1 + firstDay; i <= monthAmount + firstDay; i++){
-    document.getElementById("dpGrid" + parseInt(i)).innerHTML = i - firstDay 
+    document.getElementById("dpGrid" + parseInt(i)).innerHTML = i - firstDay; 
     console.log("Check")
   }
 
-  /*for (i = 1 + monthAmount; i <= monthAmount + firstDay; i++){
-    document.getElementById("dpGrid" + parseInt(i)).innerHTML = " ";
-  }*/
+  for (i = firstDay + monthAmount + 1; i <= 42; i++){
+    document.getElementById("dpGrid" + parseInt(i)).innerHTML = "&nbsp;";
+  }
 
   document.getElementById("datePickerDate").innerHTML = currentMonthName + " " + currentYear;
 }
@@ -109,8 +109,17 @@ function addPickerMonth(){
     currentMonth = currentMonth - 11;
   }
   generatePicker();
-
 } 
+
+function removePickerMonth(){
+  if (currentMonth > 1){
+    currentMonth = currentMonth - 1;
+  } else {
+    currentYear = currentYear - 1;
+    currentMonth = currentMonth + 11;
+  }
+  generatePicker();
+}
 
 function viewAllEvents(){
   console.log("VIEWALLEVENTS");
