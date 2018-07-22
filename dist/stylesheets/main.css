@@ -11,6 +11,7 @@ body{
     max-height:500px;
     margin:0;
     padding-left:25px;
+    padding-right:25px;
     background-color:#FAFAFA;
 }
 
@@ -76,7 +77,7 @@ h6{
 #utility{
 }
 
-#createEventButt{
+.createEventButt{
     height:90px;
     width:130px;
     font-size:0.75em
@@ -133,6 +134,8 @@ h6{
 
 .upcomingSide1{
     margin-bottom:9px;
+    padding-top:4px;
+    padding-bottom:4px;
     text-align:center;
     font-size:0.85em;
     background-color:#FFFFFF;
@@ -141,6 +144,8 @@ h6{
 
 .upcomingSide2{
     margin-bottom:9px;
+    padding-top:4px;
+    padding-bottom:4px;
     text-align:center;
     font-size:0.85em;
     background-color:#FFFFFF;
@@ -194,4 +199,26 @@ h6{
 
 #datePickerDate{
     width:80%;
+}
+
+.mdl-dialog{
+    width:700px;
+    height:500px;
+    font-family:'Nunito',sans-serif;
+}
+
+#upcomingMiniBox{
+    padding-top:0;
+    padding-bottom:0px;
+}
+
+#closeDialog{
+    position:absolute;
+    margin-left:635px;
+    padding-left:0px;
+    padding-right:0px;
+}
+
+textarea{
+    resize:none;
 }

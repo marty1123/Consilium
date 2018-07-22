@@ -6,6 +6,8 @@
         <script src="dist/stylesheets/mdl/material.min.js"></script>
         <link rel="stylesheet" href="dist/stylesheets/font.css">
         <link rel="stylesheet" href="dist/stylesheets/main.css" type="text/css">
+        <link rel="stylesheet" href="node_modules/getmdl-select/getmdl-select.min.css">
+        <script defer src="node_modules/getmdl-select/getmdl-select.min.js"></script>
         <script src="dist/main.js"></script>
       <title>Consilium</title>
     </head>
@@ -107,16 +109,81 @@
             </button>
           </div>
           <div class="mdl-cell mdl-cell--2-col" id="utility">
-            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" id="createEventButt">
-              Create Event
-            </button>
+            <button id="show-dialog" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary createEventButt">Create Event</button>
+                  <dialog class="mdl-dialog">
+                    <button type="button" class="mdl-button close" id="closeDialog">&#10006</button>
+                    <h4 class="mdl-dialog__title">Create a new event</h4>
+                    <div class="mdl-dialog__content">
+                        <form action="#">
+                            <div class="mdl-textfield mdl-js-textfield">
+                              <input class="mdl-textfield__input" type="text" id="sample1">
+                              <label class="mdl-textfield__label" for="sample1">Event Name...</label>
+                            </div>
+                          </form>
+
+                          <form action="#">
+                              <div class="mdl-textfield mdl-js-textfield">
+                                <textarea class="mdl-textfield__input" type="text" rows= "3" id="sample5"></textarea>
+                                <label class="mdl-textfield__label" for="sample5">Event Description...</label>
+                              </div>
+                          </form>
+
+                          <div class="mdl-textfield mdl-js-textfield getmdl-select">
+                            <input type="text" value="" class="mdl-textfield__input" id="sample2" readonly>
+                            <input type="hidden" value="" name="sample2">
+                            <i class="mdl-icon-toggle__label material-icons">▼</i>
+                            <label for="sample2" class="mdl-textfield__label">Country</label>
+                            <ul for="sample2" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+                                <li class="mdl-menu__item" data-val="DEU">Germany</li>
+                                <li class="mdl-menu__item" data-val="BLR">Belarus</li>
+                                <li class="mdl-menu__item" data-val="RUS">Russia</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                          <div class="mdl-textfield mdl-js-textfield getmdl-select">
+                            <input type="text" value="" class="mdl-textfield__input" id="sample2" readonly>
+                            <input type="hidden" value="" name="sample2">
+                            <i class="mdl-icon-toggle__label material-icons">▼</i>
+                            <label for="sample2" class="mdl-textfield__label">Country</label>
+                            <ul for="sample2" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+                                <li class="mdl-menu__item" data-val="DEU">Germany</li>
+                                <li class="mdl-menu__item" data-val="BLR">Belarus</li>
+                                <li class="mdl-menu__item" data-val="RUS">Russia</li>
+                            </ul>
+                        </div>
+                      </div>
+
+
+                    </div>
+                    <div class="mdl-dialog__actions">
+                      <button type="button" class="mdl-button">Agree</button>
+                    </div>
+                  </dialog>
+                  <script>
+                    var dialog = document.querySelector('dialog');
+                    var showDialogButton = document.querySelector('#show-dialog');
+                    if (! dialog.showModal) {
+                      dialogPolyfill.registerDialog(dialog);
+                    }
+                    showDialogButton.addEventListener('click', function() {
+                      dialog.showModal();
+                    });
+                    dialog.querySelector('.close').addEventListener('click', function() {
+                      dialog.close();
+                    });
+                  </script>
+
+            
+          
+
             <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" id="printScheduleButt">
               Print Schedule
             </button>
           </div>
           <div class="mdl-cell mdl-cell--5-col mdl-shadow--2dp" id="upcomingMini">
             <div class="bar">Upcoming Events</div>
-            <div class="mdl-grid">
+            <div class="mdl-grid" id="upcomingMiniBox">
               <div class="mdl-cell mdl-cell--6-col">
                 <div class="upcomingSide1 mdl-shadow--2dp">Event Name - 3 Days <br> (28/05/18)</div>
                 <div class="upcomingSide1 mdl-shadow--2dp">Event Name - 3 Days <br> (28/05/18)</div>
@@ -127,12 +194,11 @@
                 <div class="upcomingSide2 mdl-shadow--2dp">Event Name - 3 Days <br> (28/05/18)</div>
                 <div class="upcomingSide2 mdl-shadow--2dp">Event Name - 3 Days <br> (28/05/18)</div>
               </div>
-              <h8 id="viewAllButt" onClick="viewAllEvents()">View All</h8>
             </div>
           </div>
       </div>
 
       <br>
-
+      
     </body>
   </html>
