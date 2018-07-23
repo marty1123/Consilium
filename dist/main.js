@@ -104,3 +104,12 @@ function removePickerMonth(){
 function viewAllEvents(){
   console.log("VIEWALLEVENTS");
 }
+
+function createEventDialog(){
+  year = currentYear
+  for (i = 1; i < 5; i++){
+    document.getElementById("sYearList").innerHTML += '<li class="mdl-menu__item" data-val="DEU">' + year + '</li>'
+    year = year + 1;
+  }
+  //sYearList
+}

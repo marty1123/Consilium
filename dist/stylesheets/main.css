@@ -222,3 +222,7 @@ h6{
 textarea{
     resize:none;
 }
+
+.getmdl-select{
+    width:120px;
+}

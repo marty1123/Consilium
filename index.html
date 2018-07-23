@@ -111,7 +111,7 @@
           <div class="mdl-cell mdl-cell--2-col" id="utility">
             <button id="show-dialog" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary createEventButt">Create Event</button>
                   <dialog class="mdl-dialog">
-                    <button type="button" class="mdl-button close" id="closeDialog">&#10006</button>
+                    <button type="button" class="mdl-button close" id="closeDialog" onclick="createEventDialog">&#10006</button>
                     <h4 class="mdl-dialog__title">Create a new event</h4>
                     <div class="mdl-dialog__content">
                         <form action="#">
@@ -128,31 +128,49 @@
                               </div>
                           </form>
 
-                          <div class="mdl-textfield mdl-js-textfield getmdl-select">
-                            <input type="text" value="" class="mdl-textfield__input" id="sample2" readonly>
-                            <input type="hidden" value="" name="sample2">
+                          <div class="mdl-textfield mdl-js-textfield getmdl-select getmdl-select__fix-height">
+                            <input type="text" value="" class="mdl-textfield__input" id="startYear" readonly>
+                            <input type="hidden" value="" name="startYear">
                             <i class="mdl-icon-toggle__label material-icons">▼</i>
-                            <label for="sample2" class="mdl-textfield__label">Country</label>
-                            <ul for="sample2" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+                            <label for="startYear" class="mdl-textfield__label">Year</label>
+                            <ul for="startYear" class="mdl-menu mdl-menu--bottom-left mdl-js-menu" id="sYearList">
                                 <li class="mdl-menu__item" data-val="DEU">Germany</li>
-                                <li class="mdl-menu__item" data-val="BLR">Belarus</li>
-                                <li class="mdl-menu__item" data-val="RUS">Russia</li>
+                             
                             </ul>
                         </div>
-                        
-                        <div>
-                          <div class="mdl-textfield mdl-js-textfield getmdl-select">
-                            <input type="text" value="" class="mdl-textfield__input" id="sample2" readonly>
-                            <input type="hidden" value="" name="sample2">
-                            <i class="mdl-icon-toggle__label material-icons">▼</i>
-                            <label for="sample2" class="mdl-textfield__label">Country</label>
-                            <ul for="sample2" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
-                                <li class="mdl-menu__item" data-val="DEU">Germany</li>
-                                <li class="mdl-menu__item" data-val="BLR">Belarus</li>
-                                <li class="mdl-menu__item" data-val="RUS">Russia</li>
-                            </ul>
-                        </div>
+
+                        <div class="mdl-textfield mdl-js-textfield getmdl-select getmdl-select__fix-height">
+                          <input type="text" value="" class="mdl-textfield__input" id="startMonth" readonly>
+                          <input type="hidden" value="" name="startMonth">
+                          <i class="mdl-icon-toggle__label material-icons">▼</i>
+                          <label for="startMonth" class="mdl-textfield__label">Month</label>
+                          <ul for="startMonth" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+                              <li class="mdl-menu__item" data-val="DEU">Germany</li>
+                              <li class="mdl-menu__item" data-val="BLR">Belarus</li>
+                              <li class="mdl-menu__item" data-val="RUS">Russia</li>
+                              <li class="mdl-menu__item" data-val="DEU">Germany</li>
+                              <li class="mdl-menu__item" data-val="BLR">Belarus</li>
+                              <li class="mdl-menu__item" data-val="RUS">Russia</li>
+                              <li class="mdl-menu__item" data-val="DEU">Germany</li>
+                              <li class="mdl-menu__item" data-val="BLR">Belarus</li>
+                              <li class="mdl-menu__item" data-val="RUS">Russia</li>
+                              <li class="mdl-menu__item" data-val="DEU">Germany</li>
+                              <li class="mdl-menu__item" data-val="BLR">Belarus</li>
+                              <li class="mdl-menu__item" data-val="RUS">Russia</li>
+                          </ul>
                       </div>
+
+                      <div class="mdl-textfield mdl-js-textfield getmdl-select getmdl-select__fix-height">
+                        <input type="text" value="" class="mdl-textfield__input" id="startDay" readonly>
+                        <input type="hidden" value="" name="startDay">
+                        <i class="mdl-icon-toggle__label material-icons">▼</i>
+                        <label for="startDay" class="mdl-textfield__label">Day</label>
+                        <ul for="startDay" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+                            <li class="mdl-menu__item" data-val="DEU">Germany</li>
+                        </ul>
+                    </div>
+                        
+
 
 
                     </div>
