@@ -1,6 +1,5 @@
 var $ = require("jquery");
 const {app, BrowserWindow} = require('electron')
-//window.$ = window.jQuery = require('jquery');
   
   let win
   
@@ -78,7 +77,7 @@ function generatePicker(){
     document.getElementById("dpGrid" + parseInt(i)).innerHTML = "&nbsp;";
   }
 
-  document.getElementById("datePickerDate").innerHTML = currentMonthName + " " + currentYear;
+  $("#datePickerDate").html(currentMonthName + " " + currentYear);
 }
 
 function addPickerMonth(){
@@ -105,11 +104,14 @@ function viewAllEvents(){
   console.log("VIEWALLEVENTS");
 }
 
+/*
 function createEventDialog(){
+
+  console.log("test")
+
   year = currentYear
   for (i = 1; i < 5; i++){
-    document.getElementById("sYearList").innerHTML += '<li class="mdl-menu__item" data-val="DEU">' + year + '</li>'
+    document.getElementById("sYearList").innerHTML += '<li class="mdl-menu__item" data-val="DEU">' + year + '</li>';
     year = year + 1;
   }
-  //sYearList
-}
+} */

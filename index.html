@@ -9,6 +9,14 @@
         <link rel="stylesheet" href="node_modules/getmdl-select/getmdl-select.min.css">
         <script defer src="node_modules/getmdl-select/getmdl-select.min.js"></script>
         <script src="dist/main.js"></script>
+        <script onload="bindListener()">
+            function bindListener(){
+              document.querySelector(".pickerDatesDisplay").addEventListener("click", function(this){
+              console.log(this)
+            })
+            }
+        </script>
+        <script src="node_modules/jquery/dist/jquery.min.js"></script>
       <title>Consilium</title>
     </head>
     <body onload="startLoad()">
@@ -111,7 +119,7 @@
           <div class="mdl-cell mdl-cell--2-col" id="utility">
             <button id="show-dialog" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary createEventButt">Create Event</button>
                   <dialog class="mdl-dialog">
-                    <button type="button" class="mdl-button close" id="closeDialog" onclick="createEventDialog">&#10006</button>
+                    <button type="button" class="mdl-button close" id="closeDialog">&#10006</button>
                     <h4 class="mdl-dialog__title">Create a new event</h4>
                     <div class="mdl-dialog__content">
                         <form action="#">
@@ -134,8 +142,6 @@
                             <i class="mdl-icon-toggle__label material-icons">▼</i>
                             <label for="startYear" class="mdl-textfield__label">Year</label>
                             <ul for="startYear" class="mdl-menu mdl-menu--bottom-left mdl-js-menu" id="sYearList">
-                                <li class="mdl-menu__item" data-val="DEU">Germany</li>
-                             
                             </ul>
                         </div>
 
