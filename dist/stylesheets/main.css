@@ -201,6 +201,10 @@ h6{
     width:80%;
 }
 
+.selected{
+    color:pink;
+}
+
 .mdl-dialog{
     width:700px;
     height:500px;

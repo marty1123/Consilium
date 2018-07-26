@@ -2,24 +2,20 @@
   <html>
     <head>
       <meta charset="UTF-8">
+      <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
         <link rel="stylesheet" href="dist/stylesheets/mdl/material.min.css">
         <script src="dist/stylesheets/mdl/material.min.js"></script>
         <link rel="stylesheet" href="dist/stylesheets/font.css">
         <link rel="stylesheet" href="dist/stylesheets/main.css" type="text/css">
         <link rel="stylesheet" href="node_modules/getmdl-select/getmdl-select.min.css">
+        <script src="node_modules/jquery/dist/jquery.min.js"></script>
         <script defer src="node_modules/getmdl-select/getmdl-select.min.js"></script>
         <script src="dist/main.js"></script>
-        <script onload="bindListener()">
-            function bindListener(){
-              document.querySelector(".pickerDatesDisplay").addEventListener("click", function(this){
-              console.log(this)
-            })
-            }
-        </script>
-        <script src="node_modules/jquery/dist/jquery.min.js"></script>
+        <script src="dist/index.js"></script>
+        <script>if (window.module) module = window.module;</script>
       <title>Consilium</title>
     </head>
-    <body onload="startLoad()">
+    <body>
       <div class="mainHeading">
         <h3 style="display: inline">Consilium</h3>
         <h5 style="display: inline">- Schedule Planning</h5>    
@@ -95,9 +91,9 @@
                 <div class="pickerDatesDisplay mdl-shadow--2dp" id="dpGrid42"></div>
             </div>
             <div class="mdl-grid bottomBar mdl-shadow--2dp">
-            <div id="leftPlayButt" onclick="removePickerMonth()">&#8227;</div>
+            <div id="leftPlayButt">&#8227;</div>
             <div id="datePickerDate"></div>
-            <div id="rightPlayButt" onclick="addPickerMonth()">&#8227;</div>
+            <div id="rightPlayButt">&#8227;</div>
             </div>
           </div>
           
