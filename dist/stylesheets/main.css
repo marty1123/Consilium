@@ -26,6 +26,10 @@ h5{
 
 h6{
     margin:0;
+}
+
+.viewTypeTitle{
+    margin:0;
     margin-left:10px;
 }
 
@@ -201,8 +205,9 @@ h6{
     width:80%;
 }
 
-.selected{
-    color:pink;
+.selectedDate{
+    color:white;
+    background-color:#7C4DFF;
 }
 
 .mdl-dialog{
@@ -229,4 +234,77 @@ textarea{
 
 .getmdl-select{
     width:120px;
+}
+
+.inline{
+    display:inline-block;
+    margin-right:20px;
+}
+
+#eventStartMonthForward{
+    font-size:3em;
+    margin-right:30%;
+}
+
+#eventStartMonthBack{
+    font-size:3em;
+    transform: scale(-1, 1)
+}
+
+#eventStartMonthForward:active{
+    color:black;
+}
+
+#eventStartMonthBack:active{
+    color:black;
+}
+
+.format{
+    margin:0;
+    padding:0;
+}
+
+.startDate{
+    margin-left:20px;
+}
+
+
+.endDate{
+    margin-left:20px;
+    width:70px;
+}
+
+
+#eventEndMonthForward{
+    font-size:3em;
+    margin-right:30%;
+}
+
+#eventEndMonthBack{
+    font-size:3em;
+    transform: scale(-1, 1);
+    margin-left:28px;
+}
+
+#eventEndMonthForward:active{
+    color:black;
+}
+
+#eventEndMonthBack:active{
+    color:black;
+}
+
+.endDateClass{
+    margin:0px;
+    margin-top:10px;
+}
+
+#eventStartMonth{
+    text-align: center;
+    width:110px;
+}
+
+#eventEndMonth{
+    text-align: center;
+    width:110px;
 }

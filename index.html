@@ -18,10 +18,10 @@
     <body>
       <div class="mainHeading">
         <h3 style="display: inline">Consilium</h3>
-        <h5 style="display: inline">- Schedule Planning</h5>    
+        <h5 style="display: inline">- Schedule Planning</h5>
       </div>
 
-      <h6>Week View</h6>
+      <h6 class="viewTypeTitle">Week View</h6>
 
       <div class="mdl-grid">
           <div class="mdl-cell mdl-cell--3-col mdl-shadow--2dp" id="datePicker">
@@ -132,50 +132,59 @@
                               </div>
                           </form>
 
-                          <div class="mdl-textfield mdl-js-textfield getmdl-select getmdl-select__fix-height">
-                            <input type="text" value="" class="mdl-textfield__input" id="startYear" readonly>
-                            <input type="hidden" value="" name="startYear">
-                            <i class="mdl-icon-toggle__label material-icons">▼</i>
-                            <label for="startYear" class="mdl-textfield__label">Year</label>
-                            <ul for="startYear" class="mdl-menu mdl-menu--bottom-left mdl-js-menu" id="sYearList">
+                          <div class="mdl-grid format">
+                            <h6 >Start Date:</h6>
+                            <div class="startDate" id="eventStartMonthBack">&#8227;</div>
+                            <div class="startDate" id="eventStartMonth">dfgdf</div>
+                            <div class="startDate" id="eventStartMonthForward">&#8227;</div>
+                          </div>
+
+                        <div class="mdl-textfield mdl-js-textfield getmdl-select getmdl-select__fix-height mdlRefreshStart">
+                          <input type="text" value="" class="mdl-textfield__input" id="startYear" readonly>
+                          <input type="hidden" value="" name="startYear">
+                          <label for="startYear" class="mdl-textfield__label timeLabel">Date</label>
+                          <ul for="startYear" class="mdl-menu mdl-menu--bottom-left mdl-js-menu" id="startYearCont">
+                          </ul>
+                        </div>
+
+                        <div class="mdl-textfield mdl-js-textfield getmdl-select getmdl-select__fix-height mdlRefreshTime">
+                          <input type="text" value="" class="mdl-textfield__input" id="startHour" readonly>
+                          <input type="hidden" value="" name="startHour">
+                          <label for="startHour" class="mdl-textfield__label">Time</label>
+                          <ul for="startHour" class="mdl-menu mdl-menu--bottom-left mdl-js-menu" id="startHourCont">
+                              <li class="mdl-menu__item" data-val="DEU">0</li>
+                              <li class="mdl-menu__item" data-val="BLR">Belarus</li>
+                          </ul>
+                      </div>
+                        
+                      <div class="mdl-grid format endDateClass">
+                        <h6>End Date:</h6>
+                        <div id="eventEndMonthBack">&#8227;</div>
+                        <div class="endDate" id="eventEndMonth"></div>
+                        <div class="endDate" id="eventEndMonthForward">&#8227;</div>
+                      </div>
+
+                      <div class="mdl-textfield mdl-js-textfield getmdl-select getmdl-select__fix-height mdlRefreshEnd">
+                          <input type="text" value="" class="mdl-textfield__input" id="endYear" readonly>
+                          <input type="hidden" value="" name="endYear">
+                          <label for="endYear" class="mdl-textfield__label dateLabel">Date</label>
+                          <ul for="endYear" class="mdl-menu mdl-menu--bottom-left mdl-js-menu" id="endYearCont">
                             </ul>
                         </div>
 
-                        <div class="mdl-textfield mdl-js-textfield getmdl-select getmdl-select__fix-height">
-                          <input type="text" value="" class="mdl-textfield__input" id="startMonth" readonly>
-                          <input type="hidden" value="" name="startMonth">
-                          <i class="mdl-icon-toggle__label material-icons">▼</i>
-                          <label for="startMonth" class="mdl-textfield__label">Month</label>
-                          <ul for="startMonth" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+                        <div class="mdl-textfield mdl-js-textfield getmdl-select getmdl-select__fix-height mdlRefreshTime">
+                          <input type="text" value="" class="mdl-textfield__input" id="endHour" readonly>
+                          <input type="hidden" value="" name="endHour">
+                          <label for="endHour" class="mdl-textfield__label timeLabel">Time</label>
+                          <ul for="endHour" class="mdl-menu mdl-menu--bottom-left mdl-js-menu" id="endHourCont">
                               <li class="mdl-menu__item" data-val="DEU">Germany</li>
                               <li class="mdl-menu__item" data-val="BLR">Belarus</li>
-                              <li class="mdl-menu__item" data-val="RUS">Russia</li>
-                              <li class="mdl-menu__item" data-val="DEU">Germany</li>
-                              <li class="mdl-menu__item" data-val="BLR">Belarus</li>
-                              <li class="mdl-menu__item" data-val="RUS">Russia</li>
-                              <li class="mdl-menu__item" data-val="DEU">Germany</li>
-                              <li class="mdl-menu__item" data-val="BLR">Belarus</li>
-                              <li class="mdl-menu__item" data-val="RUS">Russia</li>
-                              <li class="mdl-menu__item" data-val="DEU">Germany</li>
-                              <li class="mdl-menu__item" data-val="BLR">Belarus</li>
-                              <li class="mdl-menu__item" data-val="RUS">Russia</li>
                           </ul>
                       </div>
 
-                      <div class="mdl-textfield mdl-js-textfield getmdl-select getmdl-select__fix-height">
-                        <input type="text" value="" class="mdl-textfield__input" id="startDay" readonly>
-                        <input type="hidden" value="" name="startDay">
-                        <i class="mdl-icon-toggle__label material-icons">▼</i>
-                        <label for="startDay" class="mdl-textfield__label">Day</label>
-                        <ul for="startDay" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
-                            <li class="mdl-menu__item" data-val="DEU">Germany</li>
-                        </ul>
-                    </div>
-                        
-
-
 
                     </div>
+
                     <div class="mdl-dialog__actions">
                       <button type="button" class="mdl-button">Agree</button>
                     </div>
