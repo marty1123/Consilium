@@ -83,8 +83,9 @@ $(document).ready(()=>{
     $(".selectedDate").removeClass("selectedDate")
   }
   
-
+  
   //This function controls selecting a date from the date picker
+  var lastPick = "";
   $(".pickerDatesDisplay").click(function() {
     $(".selectedDate").removeClass("selectedDate");
 
@@ -94,15 +95,19 @@ $(document).ready(()=>{
     innerHTML = $(this).html();
 
     if (innerHTML == "&nbsp;"){
+    } else if (lastPick == this) {
+      $(".selectedDate").removeClass("selectedDate")
     } else {
       $("#" + selectedDate).addClass("selectedDate");
     }
+
+    lastPick = this;
   })
 
   //This function prepares several drop down forms and information within the create event dialog
   //Also prepares the month selection buttons within create event dialog
 
-  $('body').on('click', '.createEventButt', function () {
+  $('body').ready(function () {
     year = currentYear;
     month = currentMonth;
     days = monthAmount;
@@ -117,7 +122,7 @@ $(document).ready(()=>{
       $("#startYearCont, #endYearCont").html(contents);
     }
 
-
+    //This function dynamically generates the times to display within create event
     var x = 30; //minutes interval
     var times = []; // time array
     var tt = 0; // start time
@@ -139,11 +144,11 @@ $(document).ready(()=>{
     }
 
 
-
+    //required to be triggered when lists are dynamically added
     getmdlSelect.init('.mdlRefreshTime, .mdlRefreshStart, .mdlRefreshEnd');
   });
 
-  //Cycles through months within create event
+  //Cycles through months within create event (for event starting month)
   $('body').on('click', '#eventStartMonthBack', function () {
     if (startMonth > 1){
       startMonth = startMonth - 1;
@@ -186,7 +191,7 @@ $(document).ready(()=>{
 
 
 
-//Cycles through months within create event
+//controls cycles through months within create event (for the end month)
 $('body').on('click', '#eventEndMonthBack', function () {
   if (endMonth > 1){
     endMonth = endMonth - 1;
@@ -236,6 +241,36 @@ function generateSelectEndDates(){
     endMonth = currentMonth;
     endYear = currentYear;
   })
+
+  //Function that validifies inputted dialog data and submitss if logical.  
+  $(".agreeDialogButton").click(function() {
+    var selectedStartDay = $("#startYear").val();
+    var selectedEndDay = $("#endYear").val();
+    var startHour = $("#startHour").val().replace(":","");
+    var endHour = $("#endHour").val().replace(":","");
+
+    if (startHour.slice(4,6) == "PM"){
+      startHour = parseInt(startHour, 10) + 1200;
+      console.log(startHour)
+    } else {
+      startHour = parseInt(startHour, 10)
+    }
+
+    endHour = parseInt(endHour,10);
+    console.log("start ", startHour)
+    console.log("end ", endHour)
+
+    if (startHour > endHour){
+      console.log("You R Stupid")
+    }
+
+    //console.log(selectedStartDay,selectedEndDay,startHour,endHour)
+    
+    //dialog.close();
+  })
+
+
+
 
 
   /*  $("#rightPlayButt").click(addPickerMonth)

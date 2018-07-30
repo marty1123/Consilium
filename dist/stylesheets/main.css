@@ -308,3 +308,7 @@ textarea{
     text-align: center;
     width:110px;
 }
+
+.agreeDialogButton{
+    margin-top:-15px;
+}
