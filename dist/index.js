@@ -133,7 +133,7 @@ $(document).ready(()=>{
     for (var i=0;tt<24*60; i++) {
     var hh = Math.floor(tt/60); // getting hours of day in 0-24 format
     var mm = (tt%60); // getting minutes of the hour in 0-55 format
-    times[i] = ("0" + (hh % 12)).slice(-2) + ':' + ("0" + mm).slice(-2) + ap[Math.floor(hh/12)]; // pushing data in array in [00:00 - 12:00 AM/PM format]
+    times[i] = ("" + ((hh==12)?12:hh%12)).slice(-2) + ':' + ("0" + mm).slice(-2) + ap[Math.floor(hh/12)]; // pushing data in array in [00:00 - 12:00 AM/PM format]
     tt = tt + x; 
     }
     
@@ -249,14 +249,26 @@ function generateSelectEndDates(){
     var startHour = $("#startHour").val().replace(":","");
     var endHour = $("#endHour").val().replace(":","");
 
-    if (startHour.slice(4,6) == "PM"){
-      startHour = parseInt(startHour, 10) + 1200;
-      console.log(startHour)
+    console.log(startHour.substring(startHour.length -2, startHour.length))
+   
+    if (startHour.substring(startHour.length -2, startHour.length) == "PM"){
+      console.log("starthour: ",startHour)
+      startHour = parseInt(startHour);
+      startHour = startHour + 1200;
+      console.log("starthour: ",startHour)
     } else {
       startHour = parseInt(startHour, 10)
     }
 
-    endHour = parseInt(endHour,10);
+    if (endHour.substring(endHour.length -2, endHour.length) == "PM"){
+      console.log("starthour: ",endHour)
+      endHour = parseInt(endHour);
+      endHour = endHour + 1200;
+      console.log("endthour: ",endHour)
+    } else {
+      endHour = parseInt(endHour, 10)
+    }
+
     console.log("start ", startHour)
     console.log("end ", endHour)
 
