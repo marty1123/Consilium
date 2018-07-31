@@ -248,9 +248,26 @@ function generateSelectEndDates(){
     var selectedEndDay = $("#endYear").val();
     var startHour = $("#startHour").val().replace(":","");
     var endHour = $("#endHour").val().replace(":","");
+    var eventName = $("#eventName").val();
+    var eventDescription = $("#eventDescription").val();
+    var dataValidity = true;
+    var dataInput = true;
 
+    //Checking for blank inputs
+    inputArray = [selectedStartDay, selectedEndDay, startHour, endHour, eventName, eventDescription];
+    
+    for (i = 0; i < inputArray.length; i++){
+      if (inputArray[i] == "" || inputArray[i] == undefined || inputArray[i] == NaN){
+        dataInput = false;
+        console.log("Empty input detected")
+      }    
+    }
+
+    console.log("EVENT NAME, DESCRIPTION: ", eventName, eventDescription)
+    console.log("SelecteDates: ", selectedStartDay,selectedEndDay)
     console.log(startHour.substring(startHour.length -2, startHour.length))
-   
+    
+    //Multiple if statements check hour / time validity
     if (startHour.substring(startHour.length -2, startHour.length) == "PM"){
       console.log("starthour: ",startHour)
       startHour = parseInt(startHour);
@@ -272,9 +289,35 @@ function generateSelectEndDates(){
     console.log("start ", startHour)
     console.log("end ", endHour)
 
-    if (startHour > endHour){
-      console.log("You R Stupid")
+    if (startHour >= endHour){
+      dataValidity = false;
+      console.log("Times entered are invalid")
     }
+
+
+    //Start and end day comparison
+    var startDay = selectedStartDay.split("/");
+    var startDay = new Date(startDay[1] + "/" + startDay[0] + "/" + startDay[2]);
+    console.log("STARTDAYDATE: ", startDay);
+
+    var endDay = selectedEndDay.split("/");
+    var endDay = new Date(endDay[1] + "/" + endDay[0] + "/" + endDay[2]);
+    console.log("ENDDAYDATE: ", endDay);
+
+    if (startDay > endDay){
+      dateValidity = false;
+      console.log("Problem Detected")
+    }
+
+    if (dataValidity == false){
+      console.log("SOMETHING IS WRONG DATAVALIDITY IS FALSE")
+    }
+
+    
+
+
+
+
 
     //console.log(selectedStartDay,selectedEndDay,startHour,endHour)
     
