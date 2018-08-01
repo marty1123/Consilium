@@ -312,3 +312,7 @@ textarea{
 .agreeDialogButton{
     margin-top:-15px;
 }
+
+#validityWarning{
+    color:red;
+}

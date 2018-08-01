@@ -254,7 +254,7 @@ function generateSelectEndDates(){
     var dataInput = true;
 
     //Checking for blank inputs
-    inputArray = [selectedStartDay, selectedEndDay, startHour, endHour, eventName, eventDescription];
+    inputArray = [selectedStartDay, selectedEndDay, startHour, endHour, eventName];
     
     for (i = 0; i < inputArray.length; i++){
       if (inputArray[i] == "" || inputArray[i] == undefined || inputArray[i] == NaN){
@@ -310,7 +310,11 @@ function generateSelectEndDates(){
     }
 
     if (dataValidity == false){
-      console.log("SOMETHING IS WRONG DATAVALIDITY IS FALSE")
+      $("#validityWarning").html("Invalid date or time entered")
+    };
+
+    if (dataInput == false){
+      $("#validityWarning").html("Area left blank")
     }
 
     
