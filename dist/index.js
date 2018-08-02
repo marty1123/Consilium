@@ -305,17 +305,19 @@ function generateSelectEndDates(){
     console.log("ENDDAYDATE: ", endDay);
 
     if (startDay > endDay){
-      dateValidity = false;
+      dataValidity = false;
       console.log("Problem Detected")
     }
 
-    if (dataValidity == false){
+    if (dataValidity == false && dataInput == false){
+      $("#validityWarning").html("Area left blank and invalid date")
+    } else if (dataValidity == false){
       $("#validityWarning").html("Invalid date or time entered")
-    };
-
-    if (dataInput == false){
+    } else if (dataInput == false){
       $("#validityWarning").html("Area left blank")
     }
+
+
 
     
 
