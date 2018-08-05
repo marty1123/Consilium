@@ -316,3 +316,77 @@ textarea{
 #validityWarning{
     color:red;
 }
+
+.colorPickerDiv{
+    width:40%;
+    margin-left:375px;
+    margin-top:75px;
+    position:absolute;
+}
+
+.colorPickerUnit{
+    margin:12px;
+    height:40px;
+    width:40px;
+    border-radius:40px;
+    font-size:25px;
+    text-align:center;
+    padding-top:10px;
+}
+
+#F68C1F{
+    background-color:#F68C1F;
+}
+
+#F15A23{
+    background-color:#F15A23;
+}
+
+#ED1B24{
+    background-color:#ED1B24;
+}
+
+#B72468{
+    background-color:#B72468;
+}
+
+#A62E91{
+    background-color:#662E91;
+}
+
+#A24EA2{
+    background-color:#524EA2;
+}
+
+#A071BD{
+    background-color:#0071BD;
+}
+
+#A1A89E{
+    background-color:#01A89E;
+}
+
+#AAB54A{
+    background-color:#3AB54A;
+}
+
+#CADB2A{
+    background-color:#CADB2A;
+}
+
+#FEF200{
+    background-color:#FEF200;
+}
+
+#FDB813{
+    background-color:#FDB813;
+}
+
+#A22222{
+    background-color:#222222;
+    color:#FFFFFF;
+}
+
+#FFFFFF{
+    background-color:#FFFFFF;
+}

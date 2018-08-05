@@ -1,5 +1,27 @@
 $(document).ready(()=>{
 
+  //Creates the class ListItem
+  function ListItem(name, description, startDate, endDate, startTime, endTime, color) {
+    this.name = name;
+    this.description = description;
+    this.startDate = startDate
+    this.endDate = endDate;
+    
+    return this;
+  }
+
+  //List Class
+  function List(){
+    this.ListTask = [];
+    
+    //function used to add new item to list array
+    this.Add = function(name, description, startDate, endDate){
+        this.ListTask.push(new ListItem(name, description, startDate, endDate));
+    }
+  }
+
+
+
   //Delcaration for several universal veriables required with date calcuation  
   var d = 0;
   var currentDate = 0;
@@ -107,7 +129,17 @@ $(document).ready(()=>{
   //This function prepares several drop down forms and information within the create event dialog
   //Also prepares the month selection buttons within create event dialog
 
-  $('body').ready(function () {
+  $('body').on('click', '.createEventButt', function () {
+    console.log("createeventbutt clicked")
+    startMonth = currentMonth;
+    startYear = currentYear;
+    endMonth = currentMonth;
+    endYear = currentYear;
+    $("#eventName").val("");
+    $("#eventNameLabel").html("Event Name...");
+    $("#eventDescription").val("")
+    $("#eventDescriptionLabel").html("Event Description...");
+
     year = currentYear;
     month = currentMonth;
     days = monthAmount;
@@ -235,11 +267,8 @@ function generateSelectEndDates(){
 
 //Clears values associated with create month dialog
   $('body').on('click', '#closeDialog', function () {
-    console.log("test")
-    startMonth = currentMonth;
-    startYear = currentYear;
-    endMonth = currentMonth;
-    endYear = currentYear;
+    console.log("dialogCLOSED")
+    
   })
 
   //Function that validifies inputted dialog data and submitss if logical.  
@@ -268,33 +297,6 @@ function generateSelectEndDates(){
     console.log(startHour.substring(startHour.length -2, startHour.length))
     
     //Multiple if statements check hour / time validity
-    if (startHour.substring(startHour.length -2, startHour.length) == "PM"){
-      console.log("starthour: ",startHour)
-      startHour = parseInt(startHour);
-      startHour = startHour + 1200;
-      console.log("starthour: ",startHour)
-    } else {
-      startHour = parseInt(startHour, 10)
-    }
-
-    if (endHour.substring(endHour.length -2, endHour.length) == "PM"){
-      console.log("starthour: ",endHour)
-      endHour = parseInt(endHour);
-      endHour = endHour + 1200;
-      console.log("endthour: ",endHour)
-    } else {
-      endHour = parseInt(endHour, 10)
-    }
-
-    console.log("start ", startHour)
-    console.log("end ", endHour)
-
-    if (startHour >= endHour){
-      dataValidity = false;
-      console.log("Times entered are invalid")
-    }
-
-
     //Start and end day comparison
     var startDay = selectedStartDay.split("/");
     var startDay = new Date(startDay[1] + "/" + startDay[0] + "/" + startDay[2]);
@@ -304,9 +306,42 @@ function generateSelectEndDates(){
     var endDay = new Date(endDay[1] + "/" + endDay[0] + "/" + endDay[2]);
     console.log("ENDDAYDATE: ", endDay);
 
-    if (startDay > endDay){
-      dataValidity = false;
+
+
+    if (startDay >= endDay){
       console.log("Problem Detected")
+      dataValidity = false;
+
+      if (startHour.substring(startHour.length -2, startHour.length) == "PM"){
+        console.log("starthour: ",startHour)
+        startHour = parseInt(startHour);
+        startHour = startHour + 1200;
+        console.log("starthour: ",startHour)
+      } else {
+        startHour = parseInt(startHour, 10)
+      }
+  
+      if (endHour.substring(endHour.length -2, endHour.length) == "PM"){
+        console.log("starthour: ",endHour)
+        endHour = parseInt(endHour);
+        endHour = endHour + 1200;
+        console.log("endthour: ",endHour)
+      } else {
+        endHour = parseInt(endHour, 10)
+      }
+  
+      console.log("start ", startHour)
+      console.log("end ", endHour)
+  
+      if (startHour >= endHour){
+        dataValidity = false;
+        console.log("Times entered are invalid")
+      } else if (startHour < endHour){
+        dataValidity = true;
+      }
+  
+  
+      
     }
 
     if (dataValidity == false && dataInput == false){
@@ -317,49 +352,48 @@ function generateSelectEndDates(){
       $("#validityWarning").html("Area left blank")
     }
 
-
-
-    
-
-
-
-
-
-    //console.log(selectedStartDay,selectedEndDay,startHour,endHour)
-    
-    //dialog.close();
+    if (dataValidity == true && dataInput == true){
+      $("#eventName, #eventDescription").html("")
+      startMonth = currentMonth;
+      startYear = currentYear;
+      endMonth = currentMonth;
+      endYear = currentYear;
+      dialog.close();
+    }
   })
 
+  var lastColorPick = "";
+  //Color Picker function
+  $(".colorPickerUnit").click(function(){
+    $(".selectedColor").html("&nbsp;")
+    $(".selectedColor").removeClass("selectedColor");
+    $(this).addClass("selectedColor");
+    $(this).html("✔")
 
-
-
-
-  /*  $("#rightPlayButt").click(addPickerMonth)
-  if (currentMonth > 1){
-      currentMonth = currentMonth - 1;
-    } else {
-      currentYear = currentYear - 1;
-      currentMonth = currentMonth + 11;
-    }*/
-
-
-
-
-
-  /*
-  function createEventDialog(){
+    lastColorPick = $(this).attr("value")
+    console.log(lastColorPick)
+    console.log("TEST11111")
+    
+  })
   
-    console.log("test")
-  
-    year = currentYear
-    for (i = 1; i < 5; i++){
-      document.getElementById("sYearList").innerHTML += '<li class="mdl-menu__item" data-val="DEU">' + year + '</li>';
-      year = year + 1;
-    }
-  } */
+
 
 })
 
+/*$(".selectedDate").removeClass("selectedDate");
+
+    console.log($(this).attr("id"));
+
+    selectedDate = $(this).attr("id");
+    innerHTML = $(this).html();
+
+    if (innerHTML == "&nbsp;"){
+    } else if (lastPick == this) {
+      $(".selectedDate").removeClass("selectedDate")
+    } else {
+      $("#" + selectedDate).addClass("selectedDate");
+    }
+ */
 
 
   
