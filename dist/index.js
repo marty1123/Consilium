@@ -1,13 +1,18 @@
+var fs = require('fs');
+
 $(document).ready(()=>{
 
   //Creates the class ListItem
   function ListItem(name, description, startDate, endDate, startTime, endTime, color) {
-    this.name = name;
-    this.description = description;
-    this.startDate = startDate
-    this.endDate = endDate;
-    
-    return this;
+    return({
+      "name":name,
+      "description":description,
+      "startDate":startDate,
+      "endDate":endDate,
+      "startTime":startTime,
+      "endTime":endTime,
+      "color":color
+    })
   }
 
   //List Class
@@ -15,12 +20,28 @@ $(document).ready(()=>{
     this.ListTask = [];
     
     //function used to add new item to list array
-    this.Add = function(name, description, startDate, endDate){
-        this.ListTask.push(new ListItem(name, description, startDate, endDate));
+    this.Add = function(name, description, startDate, endDate, startTime, endTime, color){
+        this.ListTask.push(new ListItem(name, description, startDate, endDate, startTime, endTime, color));
     }
   }
 
+  function createStandardList(cList){
+    cList.Add("testName","testDescription","3/5/6","4/5/6","3:00","4:00","color");
+    cList.Add("testName","testDescription","3/5/6","4/5/6","3:00","4:00","color");
+    console.log(cList)
+  }
 
+  console.log(JSON.parse(fs.readFileSync("userData.json", "utf-8")))
+  //var cList = new List();
+  var cList = new List(JSON.parse(fs.readFile('userData.json')));
+  //createStandardList(cList);
+  console.log(cList.ListTask);
+  //localStorage.setItem("cList", JSON.stringify(cList));
+  //cList.ListTask.splice(0,2);
+  console.log(cList.ListTask)
+
+
+  
 
   //Delcaration for several universal veriables required with date calcuation  
   var d = 0;
@@ -279,6 +300,7 @@ function generateSelectEndDates(){
     var endHour = $("#endHour").val().replace(":","");
     var eventName = $("#eventName").val();
     var eventDescription = $("#eventDescription").val();
+    var color = $(".selectedColor").attr("value")
     var dataValidity = true;
     var dataInput = true;
 
@@ -311,34 +333,42 @@ function generateSelectEndDates(){
     if (startDay >= endDay){
       console.log("Problem Detected")
       dataValidity = false;
+      
 
-      if (startHour.substring(startHour.length -2, startHour.length) == "PM"){
-        console.log("starthour: ",startHour)
-        startHour = parseInt(startHour);
-        startHour = startHour + 1200;
-        console.log("starthour: ",startHour)
-      } else {
-        startHour = parseInt(startHour, 10)
+
+      if (dataValidity == true){
+        if (startHour.substring(startHour.length -2, startHour.length) == "PM"){
+          console.log("starthour: ",startHour)
+          startHour = parseInt(startHour);
+          startHour = startHour + 1200;
+          console.log("starthour: ",startHour)
+        } else {
+          startHour = parseInt(startHour, 10)
+        }
+    
+        if (endHour.substring(endHour.length -2, endHour.length) == "PM"){
+          console.log("starthour: ",endHour)
+          endHour = parseInt(endHour);
+          endHour = endHour + 1200;
+          console.log("endthour: ",endHour)
+        } else {
+          endHour = parseInt(endHour, 10)
+        }
+    
+        console.log("start ", startHour)
+        console.log("end ", endHour)
+    
+        if (startHour >= endHour){
+          dataValidity = false;
+          console.log("Times entered are invalid")
+        } else if (startHour < endHour){
+          dataValidity = true;
+        }
+
       }
-  
-      if (endHour.substring(endHour.length -2, endHour.length) == "PM"){
-        console.log("starthour: ",endHour)
-        endHour = parseInt(endHour);
-        endHour = endHour + 1200;
-        console.log("endthour: ",endHour)
-      } else {
-        endHour = parseInt(endHour, 10)
-      }
-  
-      console.log("start ", startHour)
-      console.log("end ", endHour)
-  
-      if (startHour >= endHour){
-        dataValidity = false;
-        console.log("Times entered are invalid")
-      } else if (startHour < endHour){
-        dataValidity = true;
-      }
+
+
+      
   
   
       
@@ -353,6 +383,10 @@ function generateSelectEndDates(){
     }
 
     if (dataValidity == true && dataInput == true){
+      cList.Add(eventName,eventDescription,selectedStartDay,selectedEndDay,startHour,endHour,color)
+      //localStorage.setItem("cList", JSON.stringify(cList));
+
+      console.log("NEW ARRAY ENTRY:", cList.ListTask)
       $("#eventName, #eventDescription").html("")
       startMonth = currentMonth;
       startYear = currentYear;
