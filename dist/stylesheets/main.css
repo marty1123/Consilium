@@ -390,3 +390,9 @@ textarea{
 #FFFFFF{
     background-color:#FFFFFF;
 }
+
+#viewPane{   
+    margin:auto;
+    width:870px;
+    height:630px;
+}

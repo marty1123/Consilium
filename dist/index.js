@@ -3,14 +3,14 @@ var fs = require('fs');
 $(document).ready(()=>{
 
   //Creates the class ListItem
-  function ListItem(name, description, startDate, endDate, startTime, endTime, color) {
+  function ListItem(name, description, startDate, endDate, startHour, endHour, color) {
     return({
       "name":name,
       "description":description,
       "startDate":startDate,
       "endDate":endDate,
-      "startTime":startTime,
-      "endTime":endTime,
+      "startHour":startHour,
+      "endHour":endHour,
       "color":color
     })
   }
@@ -20,8 +20,8 @@ $(document).ready(()=>{
     this.ListTask = [];
     
     //function used to add new item to list array
-    this.Add = function(name, description, startDate, endDate, startTime, endTime, color){
-        this.ListTask.push(new ListItem(name, description, startDate, endDate, startTime, endTime, color));
+    this.Add = function(name, description, startDate, endDate, startHour, endHour, color){
+        this.ListTask.push(new ListItem(name, description, startDate, endDate, startHour, endHour, color));
     }
   }
 
@@ -31,14 +31,15 @@ $(document).ready(()=>{
     console.log(cList)
   }
 
-  console.log(JSON.parse(fs.readFileSync("userData.json", "utf-8")))
+  console.log(process.cwd())
+  console.log(JSON.parse(fs.readFileSync("/Users/med0001/Desktop/softwareDevSat/dist/userData.json", "utf-8")));
   //var cList = new List();
-  var cList = new List(JSON.parse(fs.readFile('userData.json')));
+  var dataOutput = JSON.parse(fs.readFileSync('/Users/med0001/Desktop/softwareDevSat/dist/userData.json', "utf-8"))
+  var cList = dataOutput;
   //createStandardList(cList);
   console.log(cList.ListTask);
   //localStorage.setItem("cList", JSON.stringify(cList));
   //cList.ListTask.splice(0,2);
-  console.log(cList.ListTask)
 
 
   
@@ -383,8 +384,9 @@ function generateSelectEndDates(){
     }
 
     if (dataValidity == true && dataInput == true){
-      cList.Add(eventName,eventDescription,selectedStartDay,selectedEndDay,startHour,endHour,color)
-      //localStorage.setItem("cList", JSON.stringify(cList));
+      cList.ListTask.push(new ListItem(eventName, eventDescription, selectedStartDay, selectedEndDay, startHour, endHour, color))
+      var dataInput = JSON.stringify(cList);
+      fs.writeFileSync('/Users/med0001/Desktop/softwareDevSat/dist/userData.json', dataInput, 'utf-8');
 
       console.log("NEW ARRAY ENTRY:", cList.ListTask)
       $("#eventName, #eventDescription").html("")
