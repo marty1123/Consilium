@@ -26,23 +26,23 @@ $(document).ready(()=>{
   }
 
   function createStandardList(cList){
-    cList.Add("testName","testDescription","3/5/6","4/5/6","3:00","4:00","color");
-    cList.Add("testName","testDescription","3/5/6","4/5/6","3:00","4:00","color");
+    //cList.Add("testName","testDescription","3/5/6","4/5/6","3:00","4:00","color");
+    //cList.Add("testName","testDescription","3/5/6","4/5/6","3:00","4:00","color");
     console.log(cList)
   }
 
   console.log(process.cwd())
-  console.log(JSON.parse(fs.readFileSync("/Users/med0001/Desktop/softwareDevSat/dist/userData.json", "utf-8")));
+  console.log(JSON.parse(fs.readFileSync("dist/userData.json", "utf-8")));
   //var cList = new List();
-  var dataOutput = JSON.parse(fs.readFileSync('/Users/med0001/Desktop/softwareDevSat/dist/userData.json', "utf-8"))
+  var dataOutput = JSON.parse(fs.readFileSync('dist/userData.json', "utf-8"))
   var cList = dataOutput;
   //createStandardList(cList);
   console.log(cList.ListTask);
   //localStorage.setItem("cList", JSON.stringify(cList));
   //cList.ListTask.splice(0,2);
 
-
-  
+  //Calls the function to generate the mini upcoming dates
+  generateMiniUpcoming();
 
   //Delcaration for several universal veriables required with date calcuation  
   var d = 0;
@@ -331,7 +331,7 @@ function generateSelectEndDates(){
 
 
 
-    if (startDay >= endDay){
+    if (startDay > endDay){
       console.log("Problem Detected")
       dataValidity = false;
       
@@ -386,7 +386,7 @@ function generateSelectEndDates(){
     if (dataValidity == true && dataInput == true){
       cList.ListTask.push(new ListItem(eventName, eventDescription, selectedStartDay, selectedEndDay, startHour, endHour, color))
       var dataInput = JSON.stringify(cList);
-      fs.writeFileSync('/Users/med0001/Desktop/softwareDevSat/dist/userData.json', dataInput, 'utf-8');
+      fs.writeFileSync('dist/userData.json', dataInput, 'utf-8');
 
       console.log("NEW ARRAY ENTRY:", cList.ListTask)
       $("#eventName, #eventDescription").html("")
@@ -411,7 +411,39 @@ function generateSelectEndDates(){
     console.log("TEST11111")
     
   })
+
+  //Function to sort date ascending
+  function compare(a,b) {
+    if (a.startDate < b.startDate){
+      return -1;
+    }
+    if (a.startDate > b.startDate){
+      return 1;
+    }
+    if (a.startDate == a.endDate){
+      if (a.startHour < b.startHour){
+        return -1;
+      } 
+      if (a.startHour > b.startHour){
+        return 1;
+      }
+    }
+    return 0;
+  }
   
+
+  //Generate mini upcoming events
+  function generateMiniUpcoming() {
+    var currentList = cList;
+    currentList.ListTask.sort(compare);
+
+    console.log(currentList)
+
+    for(i = 0; i < 6  ; i++){
+      console.log(currentList.ListTask[i]["startDate"])
+    }
+
+  }
 
 
 })
