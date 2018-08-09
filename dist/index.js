@@ -41,9 +41,6 @@ $(document).ready(()=>{
   //localStorage.setItem("cList", JSON.stringify(cList));
   //cList.ListTask.splice(0,2);
 
-  //Calls the function to generate the mini upcoming dates
-  generateMiniUpcoming();
-
   //Delcaration for several universal veriables required with date calcuation  
   var d = 0;
   var currentDate = 0;
@@ -59,6 +56,7 @@ $(document).ready(()=>{
   var startYear = 0;
   var endMonth = 0;
   var endYear = 0;
+  var currentDateStatic = "";
 
   console.log("Test");
   var selectd = new Date();
@@ -74,6 +72,10 @@ $(document).ready(()=>{
     startYear = currentYear;
     endMonth = currentMonth;
     endYear = currentYear;
+    currentDateStatic = currentYear + "," + currentMonth + "," + currentDate;
+    console.log("currentDatestatic:" + currentDateStatic);
+    //Calls the function to generate the mini upcoming dates
+    generateMiniUpcoming();
     generatePicker();
   }
 
@@ -414,17 +416,28 @@ function generateSelectEndDates(){
 
   //Function to sort date ascending
   function compare(a,b) {
-    if (a.startDate < b.startDate){
+    var startDayA = a.startDate.split("/");
+    startDayA = new Date(startDayA[1] + "/" + startDayA[0] + "/" + startDayA[2]);
+
+    var startDayB = b.startDate.split("/");
+    startDayB = new Date(startDayB[1] + "/" + startDayB[0] + "/" + startDayB[2]);
+
+    var startHourA = a.startHour.replace("PM","");
+    startHourA = startHourA.replace("AM","");
+    var startHourB = b.startHour.replace("PM","");
+    startHourB = startHourB.replace("AM","");
+
+    if (startDayA < startDayB){
       return -1;
     }
-    if (a.startDate > b.startDate){
+    if (startDayA > startDayB){
       return 1;
     }
-    if (a.startDate == a.endDate){
-      if (a.startHour < b.startHour){
+    if (startDayA == startDayB){
+      if (startHourA < startHourB){
         return -1;
       } 
-      if (a.startHour > b.startHour){
+      if (startHourA > startHourB){
         return 1;
       }
     }
@@ -438,10 +451,36 @@ function generateSelectEndDates(){
     currentList.ListTask.sort(compare);
 
     console.log(currentList)
+    
+    console.log("LENGTH: ",currentList.ListTask.length)
 
-    for(i = 0; i < 6  ; i++){
-      console.log(currentList.ListTask[i]["startDate"])
+    function remainingDay(startDate){
+      var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
+      var firstDate = new Date(currentDateStatic);
+      var secondDate = startDate;
+
+      console.log("FirstDate: "+ firstDate + " SecondDate "+ secondDate);
+
+      var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
+      return diffDays
     }
+
+    if(currentList.ListTask.length < 6){
+      for(i = 0; i < currentList.ListTask.length; i++){
+        var startDate = currentList.ListTask[i]["startDate"];
+        startDate = startDate.split("/");
+        console.log("STARTDATE: " + startDate)
+        startDate = new Date(startDate[2] + "," + startDate[1] + "," + startDate[0]);
+        $("#upcomingEvent"+(i+1)).html(currentList.ListTask[i]["name"]+ " - " + remainingDay(startDate));
+      }
+    } else for(i = 1; i <= 6; i++){
+      $("#upcomingEvent"+i).html("test"+i);
+    }
+
+
+    //for(i = 0; i < 6  ; i++){
+     // console.log(currentList.ListTask[i]["startDate"])
+   //}
 
   }
 
