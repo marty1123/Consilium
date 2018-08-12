@@ -398,3 +398,10 @@ textarea{
     width:870px;
     height:630px;
 }
+
+.listItem{
+    margin:auto;
+    width:800px;
+    margin-top:10px;
+    border-radius:10px;
+}

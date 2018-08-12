@@ -3,7 +3,7 @@ var fs = require('fs');
 $(document).ready(()=>{
 
   //Creates the class ListItem
-  function ListItem(name, description, startDate, endDate, startHour, endHour, color) {
+  function ListItem(name, description, startDate, endDate, startHour, endHour, color, tag) {
     return({
       "name":name,
       "description":description,
@@ -11,7 +11,8 @@ $(document).ready(()=>{
       "endDate":endDate,
       "startHour":startHour,
       "endHour":endHour,
-      "color":color
+      "color":color,
+      "tag":tag
     })
   }
 
@@ -20,8 +21,8 @@ $(document).ready(()=>{
     this.ListTask = [];
     
     //function used to add new item to list array
-    this.Add = function(name, description, startDate, endDate, startHour, endHour, color){
-        this.ListTask.push(new ListItem(name, description, startDate, endDate, startHour, endHour, color));
+    this.Add = function(name, description, startDate, endDate, startHour, endHour, color, tag){
+        this.ListTask.push(new ListItem(name, description, startDate, endDate, startHour, endHour, color, tag));
     }
   }
 
@@ -31,7 +32,6 @@ $(document).ready(()=>{
     console.log(cList)
   }
 
-  console.log(process.cwd())
   console.log(JSON.parse(fs.readFileSync("dist/userData.json", "utf-8")));
   //var cList = new List();
   var dataOutput = JSON.parse(fs.readFileSync('dist/userData.json', "utf-8"))
@@ -323,6 +323,7 @@ function generateSelectEndDates(){
     
     //Multiple if statements check hour / time validity
     //Start and end day comparison
+
     var startDay = selectedStartDay.split("/");
     var startDay = new Date(startDay[1] + "/" + startDay[0] + "/" + startDay[2]);
     console.log("STARTDAYDATE: ", startDay);
@@ -385,8 +386,24 @@ function generateSelectEndDates(){
       $("#validityWarning").html("Area left blank")
     }
 
+    //Confirms all data is correct and creates the event, adding it to the array of objects.
     if (dataValidity == true && dataInput == true){
-      cList.ListTask.push(new ListItem(eventName, eventDescription, selectedStartDay, selectedEndDay, startHour, endHour, color))
+      var tag = 0;
+      
+      //generates a unique identifying tag that is added to the event
+      function generateTag(){
+        tag = Math.floor(1000 + Math.random() * 9000);
+
+        for (i=0; i <= cList.ListTask.length - 1; i++){
+          if (tag == cList.ListTask[i]["tag"]){
+            generateTag();
+          }
+        }
+      }
+
+      generateTag();
+
+      cList.ListTask.push(new ListItem(eventName, eventDescription, selectedStartDay, selectedEndDay, startHour, endHour, color, tag))
       var dataInput = JSON.stringify(cList);
       fs.writeFileSync('dist/userData.json', dataInput, 'utf-8');
 
@@ -397,6 +414,7 @@ function generateSelectEndDates(){
       endMonth = currentMonth;
       endYear = currentYear;
       dialog.close();
+      generateMiniUpcoming()
     }
   })
 
@@ -447,7 +465,31 @@ function generateSelectEndDates(){
 
   //Generate mini upcoming events
   function generateMiniUpcoming() {
-    var currentList = cList;
+    var currentList = JSON.parse(JSON.stringify(cList))
+    
+    //Checks to make sure date is after current date
+    function checkDateAfterCurrent(){
+      var recursionCheck = true;
+
+      for (i = 0; i <= currentList.ListTask.length - 1; i++){
+        console.log("TESTCOYURNTEUTIRESBNIHN")
+        var startDate = currentList.ListTask[i]["startDate"];
+          startDate = startDate.split("/");
+          startDate = new Date(startDate[2] + "," + startDate[1] + "," + startDate[0]);
+          currentDate = new Date(currentDateStatic)
+  
+        if (startDate < currentDate){
+          currentList.ListTask.splice(i,1)
+          recursionCheck = false;
+        }
+      }
+      if (recursionCheck == false){
+        checkDateAfterCurrent()
+      }
+    }
+
+    checkDateAfterCurrent()
+
     currentList.ListTask.sort(compare);
 
     console.log(currentList)
@@ -459,8 +501,6 @@ function generateSelectEndDates(){
       var firstDate = new Date(currentDateStatic);
       var secondDate = startDate;
 
-      console.log("FirstDate: "+ firstDate + " SecondDate "+ secondDate);
-
       var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
       return diffDays
     }
@@ -469,38 +509,43 @@ function generateSelectEndDates(){
       for(i = 0; i < currentList.ListTask.length; i++){
         var startDate = currentList.ListTask[i]["startDate"];
         startDate = startDate.split("/");
-        console.log("STARTDATE: " + startDate)
         startDate = new Date(startDate[2] + "," + startDate[1] + "," + startDate[0]);
-        $("#upcomingEvent"+(i+1)).html(currentList.ListTask[i]["name"]+ " - " + remainingDay(startDate));
+        $("#upcomingEvent"+(i+1)).html(currentList.ListTask[i]["name"]+ " - " + remainingDay(startDate) + " Days" + '<br>' + currentList.ListTask[i]["startDate"]);
       }
-    } else for(i = 1; i <= 6; i++){
-      $("#upcomingEvent"+i).html("test"+i);
+    } else for(i = 0; i < 6; i++){
+        var startDate = currentList.ListTask[i]["startDate"];
+        startDate = startDate.split("/");
+        startDate = new Date(startDate[2] + "," + startDate[1] + "," + startDate[0]);
+        $("#upcomingEvent"+(i+1)).html(currentList.ListTask[i]["name"]+ " - " + remainingDay(startDate) + " Days" + '<br>' + currentList.ListTask[i]["startDate"]);
     }
-
-
-    //for(i = 0; i < 6  ; i++){
-     // console.log(currentList.ListTask[i]["startDate"])
-   //}
-
   }
+
+
+  function displayAllEvents(){
+    $(".viewTypeTitle").html("Events View")
+
+    var content = "";
+    var currentList = JSON.parse(JSON.stringify(cList))
+    currentList.ListTask.sort(compare);
+
+    content += '<ul class="mdl-list">'
+    
+    for (i = 0; i <= currentList.ListTask.length - 1; i++){
+      content += '<li class="listItem mdl-list__item" style=background-color:#' + currentList.ListTask[i]["color"] + '> <span class="mdl-list__item-primary-content">'
+      content += currentList.ListTask[i]["name"] + " - " + currentList.ListTask[i]["description"];
+      content += '</span> </li>'
+    }
+    content += '</ul>';
+    $("#viewPane").html(content)
+  }
+  $("#eventsButt").click(displayAllEvents)
+
+
 
 
 })
 
-/*$(".selectedDate").removeClass("selectedDate");
 
-    console.log($(this).attr("id"));
-
-    selectedDate = $(this).attr("id");
-    innerHTML = $(this).html();
-
-    if (innerHTML == "&nbsp;"){
-    } else if (lastPick == this) {
-      $(".selectedDate").removeClass("selectedDate")
-    } else {
-      $("#" + selectedDate).addClass("selectedDate");
-    }
- */
 
 
   
