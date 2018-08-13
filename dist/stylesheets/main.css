@@ -431,3 +431,7 @@ textarea{
     text-align:center;
 }
 
+#deleteEvent{
+    margin-left:40px;
+    font-size:1.5em;
+}

@@ -58,6 +58,8 @@ $(document).ready(()=>{
   var endYear = 0;
   var currentDateStatic = "";
 
+  var currentView = "";
+
   console.log("Test");
   var selectd = new Date();
   setPickerDate(selectd);
@@ -414,6 +416,7 @@ function generateSelectEndDates(){
       endMonth = currentMonth;
       endYear = currentYear;
       dialog.close();
+      viewRefresh(currentView)
       generateMiniUpcoming()
     }
   })
@@ -524,6 +527,8 @@ function generateSelectEndDates(){
   function displayAllEvents(){
     $(".viewTypeTitle").html("Events View")
 
+    currentView = "eventView";
+
     var content = "";
     var currentList = JSON.parse(JSON.stringify(cList))
     currentList.ListTask.sort(compare);
@@ -557,12 +562,39 @@ function generateSelectEndDates(){
       }
 
       content += '<li class="listItem mdl-list__item mdl-shadow--2dp"> <span class="mdl-list__item-primary-content">'
-      content += currentList.ListTask[i]["name"] + " - " + currentList.ListTask[i]["description"] + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + currentList.ListTask[i]["startDate"] + " - " + currentList.ListTask[i]["endDate"] + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + startHour + " - " + endHour;
-      content += '<div class="circle mdl-shadow--2dp" style=background-color:#' + currentList.ListTask[i]["color"] + '>&nbsp;</div> </span> </li>'
+      content += currentList.ListTask[i]["name"] + " - " + currentList.ListTask[i]["description"] + '</span>' + '<span class="mdl-list__item-primary-content">' + currentList.ListTask[i]["startDate"] + " - " + currentList.ListTask[i]["endDate"] + '</span>' + '<span class="mdl-list__item-primary-content">' + startHour + " - " + endHour;
+      content += '<div class="circle mdl-shadow--2dp" style=background-color:#' + currentList.ListTask[i]["color"] + '>&nbsp;</div>  <div id="deleteEvent" value="' + currentList.ListTask[i]["tag"] + '">&#10006;</div> </span> </li>'
     }
     content += '</ul>';
     $("#viewPane").html(content)
   }
+
+  function viewRefresh(){
+    if (currentView == "eventView"){
+      displayAllEvents();
+    }
+  }
+
+  function saveCList(){
+    var dataInput = JSON.stringify(cList);
+    fs.writeFileSync('dist/userData.json', dataInput, 'utf-8');
+  }
+
+  $('body').on('click', '#deleteEvent', function () {
+    console.log("EVENTDELET")
+    tag = $(this).attr("value")
+    console.log(tag)
+    for(i = 0; i < cList.ListTask.length; i++){
+      if(cList.ListTask[i]["tag"] == tag){
+        cList.ListTask.splice(i,1)
+      }
+    }
+    saveCList()
+    viewRefresh();
+  })
+
+
+
   $("#eventsButt").click(displayAllEvents)
 
 
