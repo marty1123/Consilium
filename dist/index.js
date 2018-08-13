@@ -528,12 +528,37 @@ function generateSelectEndDates(){
     var currentList = JSON.parse(JSON.stringify(cList))
     currentList.ListTask.sort(compare);
 
+    var startHour = "";
+    var endHour = "";
+
     content += '<ul class="mdl-list">'
     
     for (i = 0; i <= currentList.ListTask.length - 1; i++){
-      content += '<li class="listItem mdl-list__item" style=background-color:#' + currentList.ListTask[i]["color"] + '> <span class="mdl-list__item-primary-content">'
-      content += currentList.ListTask[i]["name"] + " - " + currentList.ListTask[i]["description"];
-      content += '</span> </li>'
+
+      startHour = currentList.ListTask[i]["startHour"]
+      endHour = currentList.ListTask[i]["endHour"]
+
+      if (startHour.length == 5){
+        startHour = startHour.split("")
+        startHour = startHour[0] + ":" + startHour[1] + startHour[2] + startHour[3] + startHour[4]
+        console.log("STARTHOUR: " + startHour)
+      } else {
+        startHour = startHour.split("")
+        startHour = startHour[0] + startHour[1] + ":" + startHour[2] + startHour[3] + startHour[4] + startHour[5]
+        console.log("STARTHOUR: " + startHour)
+      }
+
+      if (endHour.length == 5){
+        endHour = endHour.split("")
+        endHour = endHour[0] + ":" + endHour[1] + endHour[2] + endHour[3] + endHour[4]
+      } else {
+        endHour = endHour.split("")
+        endHour = endHour[0] + endHour[1] + ":" + endHour[2] + endHour[3] + endHour[4] + endHour[5]
+      }
+
+      content += '<li class="listItem mdl-list__item mdl-shadow--2dp"> <span class="mdl-list__item-primary-content">'
+      content += currentList.ListTask[i]["name"] + " - " + currentList.ListTask[i]["description"] + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + currentList.ListTask[i]["startDate"] + " - " + currentList.ListTask[i]["endDate"] + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + startHour + " - " + endHour;
+      content += '<div class="circle mdl-shadow--2dp" style=background-color:#' + currentList.ListTask[i]["color"] + '>&nbsp;</div> </span> </li>'
     }
     content += '</ul>';
     $("#viewPane").html(content)

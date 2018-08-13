@@ -396,12 +396,38 @@ textarea{
     background-color:#EFEFEF;
     margin:auto;
     width:870px;
-    height:630px;
+    height:620px;
+    overflow:scroll;
+    overflow-x:hidden;
 }
 
 .listItem{
     margin:auto;
     width:800px;
     margin-top:10px;
-    border-radius:10px;
+    background-color:white;
+    font-size:1em;
 }
+
+.circle{
+    border-radius:10px;
+    height:30px;
+    width:30px;
+    margin-left:30px;
+}
+
+#monthDisplay{
+    height:500px;
+    background-color:#EFEFEF;
+}
+
+.monthDatesDisplay{
+    font-family:'Nunito', sans-serif;
+    background-color:#FFFFFF;
+    margin:0;
+    width:11.1%;
+    margin-left:1.5%;
+    margin-right:1.5%;
+    text-align:center;
+}
+
