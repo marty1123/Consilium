@@ -413,7 +413,7 @@ textarea{
     border-radius:10px;
     height:30px;
     width:30px;
-    margin-left:30px;
+    margin-right:10px;
 }
 
 #monthDisplay{
@@ -432,6 +432,11 @@ textarea{
 }
 
 #deleteEvent{
-    margin-left:40px;
+    margin-left:60px;
     font-size:1.5em;
+}
+
+.eventNameDesc{
+    width:330px;
+    text-overflow:hidden;
 }

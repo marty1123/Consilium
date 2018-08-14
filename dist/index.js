@@ -416,6 +416,7 @@ function generateSelectEndDates(){
       endMonth = currentMonth;
       endYear = currentYear;
       dialog.close();
+      document.getElementById("eventSnackbar").MaterialSnackbar.showSnackbar({"message":"Event Created"})
       viewRefresh(currentView)
       generateMiniUpcoming()
     }
@@ -561,9 +562,9 @@ function generateSelectEndDates(){
         endHour = endHour[0] + endHour[1] + ":" + endHour[2] + endHour[3] + endHour[4] + endHour[5]
       }
 
-      content += '<li class="listItem mdl-list__item mdl-shadow--2dp"> <span class="mdl-list__item-primary-content">'
+      content += '<li class="listItem mdl-list__item mdl-shadow--2dp"> <span class="mdl-list__item-primary-content eventNameDesc"> <div class="circle mdl-shadow--2dp" style=background-color:#' + currentList.ListTask[i]["color"] + '>&nbsp;</div>'
       content += currentList.ListTask[i]["name"] + " - " + currentList.ListTask[i]["description"] + '</span>' + '<span class="mdl-list__item-primary-content">' + currentList.ListTask[i]["startDate"] + " - " + currentList.ListTask[i]["endDate"] + '</span>' + '<span class="mdl-list__item-primary-content">' + startHour + " - " + endHour;
-      content += '<div class="circle mdl-shadow--2dp" style=background-color:#' + currentList.ListTask[i]["color"] + '>&nbsp;</div>  <div id="deleteEvent" value="' + currentList.ListTask[i]["tag"] + '">&#10006;</div> </span> </li>'
+      content += '<div id="deleteEvent" value="' + currentList.ListTask[i]["tag"] + '">&#10006;</div> </span> </li>'
     }
     content += '</ul>';
     $("#viewPane").html(content)
@@ -591,6 +592,7 @@ function generateSelectEndDates(){
     }
     saveCList()
     viewRefresh();
+    document.getElementById("eventSnackbar").MaterialSnackbar.showSnackbar({"message":"Event Removed"});
   })
 
 

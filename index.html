@@ -334,8 +334,32 @@
             </div>
           </div>
       </div>
-
+      </div>
       <br>
+
+
+
+      <div id="eventSnackbar" class="mdl-js-snackbar mdl-snackbar">
+        <div class="mdl-snackbar__text"></div>
+        <button class="mdl-snackbar__action" type="button"></button>
+      </div>
+      <script>
+      (function() {
+        'use strict';
+        window['counter'] = 0;
+        var snackbarContainer = document.querySelector('#eventSnackbar');
+        var showToastButton = document.querySelector('#eventSnackbar');
+        showToastButton.addEventListener('click', function() {
+          'use strict';
+          var data = {message: 'Event Created'};
+          document.getElementById("eventSnackbar").MaterialSnackbar.showSnackbar({"message":"Event Created"});
+          document.getElementById("eventSnackbar").MaterialSnackbar.showSnackbar({"message":"Event Removed"});
+        });
+      }());
+      </script>
+
+
+
       
     </body>
   </html>
