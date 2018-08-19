@@ -60,6 +60,8 @@ $(document).ready(()=>{
 
   var currentView = "";
 
+  var monthViewTemplate = fs.readFileSync('dist/monthViewTemplate.html', "utf-8");
+
   console.log("Test");
   var selectd = new Date();
   setPickerDate(selectd);
@@ -77,6 +79,7 @@ $(document).ready(()=>{
     currentDateStatic = currentYear + "," + currentMonth + "," + currentDate;
     console.log("currentDatestatic:" + currentDateStatic);
     //Calls the function to generate the mini upcoming dates
+    displayMonthEvents();
     generateMiniUpcoming();
     generatePicker();
   }
@@ -89,16 +92,34 @@ $(document).ready(()=>{
     console.log(currentDate,currentMonth,currentYear,firstDay,monthAmount)
   
     for (i = 1; i <= firstDay; i++){
-      document.getElementById("dpGrid" + parseInt(i)).innerHTML = "&nbsp;";
+      $("#dpGrid" + parseInt(i)).html("&nbsp;")
+      $("#dpGrid" + parseInt(i)).addClass("dark");
+
+      if(currentView == "monthView"){
+        $("#mdNumb" + parseInt(i)).html("&nbsp;")
+        $("#mdGrid" + parseInt(i)).addClass("dark");
+      }
     }
   
     for (i = 1 + firstDay; i <= monthAmount + firstDay; i++){
-      document.getElementById("dpGrid" + parseInt(i)).innerHTML = i - firstDay; 
+      $("#dpGrid" + parseInt(i)).html(i - firstDay); 
+      $("#dpGrid" + parseInt(i)).removeClass("dark");
+
+      if(currentView == "monthView"){
+        $("#mdNumb" + parseInt(i)).html(i - firstDay);
+        $("#mdGrid" + parseInt(i)).removeClass("dark");
+      }
       console.log("Check")
     }
   
     for (i = firstDay + monthAmount + 1; i <= 42; i++){
-      document.getElementById("dpGrid" + parseInt(i)).innerHTML = "&nbsp;";
+      $("#dpGrid" + parseInt(i)).html("&nbsp;")
+      $("#dpGrid" + parseInt(i)).addClass("dark");
+
+      if(currentView == "monthView"){
+        $("#mdNumb" + parseInt(i)).html("&nbsp;")
+        $("#mdGrid" + parseInt(i)).addClass("dark");
+      }
     }
   
     $("#datePickerDate").html(currentMonthName + " " + currentYear);
@@ -116,6 +137,8 @@ $(document).ready(()=>{
     }
     generatePicker();
     $(".selectedDate").removeClass("selectedDate")
+    displayMonthEvents()
+
   } 
   
   //Calls the function removePickerMonth when the left play button is clicked
@@ -129,6 +152,7 @@ $(document).ready(()=>{
     }
     generatePicker();
     $(".selectedDate").removeClass("selectedDate")
+    displayMonthEvents()
   }
   
   
@@ -373,10 +397,6 @@ function generateSelectEndDates(){
 
       }
 
-
-      
-  
-  
       
     }
 
@@ -444,10 +464,11 @@ function generateSelectEndDates(){
     var startDayB = b.startDate.split("/");
     startDayB = new Date(startDayB[1] + "/" + startDayB[0] + "/" + startDayB[2]);
 
-    var startHourA = a.startHour.replace("PM","");
+    var startHourA = a.startHour.replace("PM","11");
     startHourA = startHourA.replace("AM","");
-    var startHourB = b.startHour.replace("PM","");
+    var startHourB = b.startHour.replace("PM","11");
     startHourB = startHourB.replace("AM","");
+
 
     if (startDayA < startDayB){
       return -1;
@@ -455,7 +476,7 @@ function generateSelectEndDates(){
     if (startDayA > startDayB){
       return 1;
     }
-    if (startDayA == startDayB){
+    if (startDayA.getTime() == startDayB.getTime()){
       if (startHourA < startHourB){
         return -1;
       } 
@@ -526,6 +547,13 @@ function generateSelectEndDates(){
 
 
   function displayAllEvents(){
+
+    $("#weekButt").removeClass("mdl-button--accent")
+    $("#eventsButt").addClass("mdl-button--accent")
+    $("#dayButt").removeClass("mdl-button--accent")
+    $("#monthButt").removeClass("mdl-button--accent")
+
+
     $(".viewTypeTitle").html("Events View")
 
     currentView = "eventView";
@@ -547,11 +575,9 @@ function generateSelectEndDates(){
       if (startHour.length == 5){
         startHour = startHour.split("")
         startHour = startHour[0] + ":" + startHour[1] + startHour[2] + startHour[3] + startHour[4]
-        console.log("STARTHOUR: " + startHour)
       } else {
         startHour = startHour.split("")
         startHour = startHour[0] + startHour[1] + ":" + startHour[2] + startHour[3] + startHour[4] + startHour[5]
-        console.log("STARTHOUR: " + startHour)
       }
 
       if (endHour.length == 5){
@@ -573,6 +599,8 @@ function generateSelectEndDates(){
   function viewRefresh(){
     if (currentView == "eventView"){
       displayAllEvents();
+    } else if (currentView == "monthView"){
+      displayMonthEvents();
     }
   }
 
@@ -592,6 +620,7 @@ function generateSelectEndDates(){
     }
     saveCList()
     viewRefresh();
+    generateMiniUpcoming();
     document.getElementById("eventSnackbar").MaterialSnackbar.showSnackbar({"message":"Event Removed"});
   })
 
@@ -600,6 +629,54 @@ function generateSelectEndDates(){
   $("#eventsButt").click(displayAllEvents)
 
 
+  //Controls the displaying of Month events
+  function displayMonthEvents(){
+    currentView = "monthView";
+    $("#viewPane").html(monthViewTemplate);
+    generatePicker();
+    generateEventsForDisplayMonth();
+
+    $("#weekButt").removeClass("mdl-button--accent")
+    $("#eventsButt").removeClass("mdl-button--accent")
+    $("#dayButt").removeClass("mdl-button--accent")
+    $("#monthButt").addClass("mdl-button--accent")
+  }
+
+  function generateEventsForDisplayMonth(){
+    var currentList = JSON.parse(JSON.stringify(cList))
+    currentList.ListTask.sort(compare);
+
+    var content = "";
+
+    for(i = 0; i < currentList.ListTask.length; i++){
+      for(x = 0; x <= monthAmount; x++){
+
+        var startDate = currentList.ListTask[i]["startDate"];
+        startDate = startDate.split("/");
+        startDate = new Date(startDate[2] + "," + startDate[1] + "," + startDate[0]);
+
+        var displayDate = new Date(currentYear + "," + currentMonth + "," + x)
+
+        //console.log(startDate + "---" + displayDate)
+
+        if (displayDate.getTime() == startDate.getTime()){
+          console.log("match Found!")
+
+          if (currentList.ListTask[i]["color"] == "222222"){
+            content = '<div class="monthEvent mdl-shadow--2dp" style="color:white; background-color:#' + currentList.ListTask[i]["color"] + '">' + currentList.ListTask[i]["name"] + '</div>'
+            $("#mdGrid" + (x + firstDay)).prepend(content);
+          } else {
+            content = '<div class="monthEvent mdl-shadow--2dp" style="background-color:#' + currentList.ListTask[i]["color"] + '">' + currentList.ListTask[i]["name"] + '</div>'
+            $("#mdGrid" + (x + firstDay)).prepend(content);
+          }
+        }
+      }
+    }
+  }
+
+
+
+  $("#monthButt").click(displayMonthEvents)
 
 
 })

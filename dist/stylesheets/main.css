@@ -4,6 +4,7 @@
 
 html{
     height:500px;
+    overflow:hidden;
 }
 
 body{
@@ -30,11 +31,13 @@ h6{
 
 .viewTypeTitle{
     margin:0;
-    margin-left:10px;
+    width:100px;
+    margin-right:430px;
 }
 
 .mainHeading{
-    margin-top:10px;
+    margin-top:5px;
+    margin-left:15px;
 }
 
 #datePicker{
@@ -396,7 +399,7 @@ textarea{
     background-color:#EFEFEF;
     margin:auto;
     width:870px;
-    height:620px;
+    height:690px;
     overflow:scroll;
     overflow-x:hidden;
 }
@@ -417,18 +420,25 @@ textarea{
 }
 
 #monthDisplay{
-    height:500px;
+    height:580px;
+    width:850px;
     background-color:#EFEFEF;
+    margin-left:0;
+    margin-right:0;
 }
 
 .monthDatesDisplay{
+    position:relative;
     font-family:'Nunito', sans-serif;
     background-color:#FFFFFF;
     margin:0;
-    width:11.1%;
-    margin-left:1.5%;
-    margin-right:1.5%;
+    width:111px;
+    height:100px;
+    margin-left:0.5%;
+    margin-right:0.5%;
     text-align:center;
+    border-radius:10px;
+    overflow-y:hidden;
 }
 
 #deleteEvent{
@@ -439,4 +449,52 @@ textarea{
 .eventNameDesc{
     width:330px;
     text-overflow:hidden;
+}
+
+.monthDisplayDayNames{
+    font-family:'Nunito', sans-serif;
+    font-weight:400;
+    margin:0;
+    width:109px;
+    margin-left:1.15%;
+    text-align:center;
+    color:#B3B3B3;
+    font-size:1.4em;
+}
+
+.dateDisplayRow{
+    margin-top:1%;
+    padding:0;
+}
+
+.dateDisplayBar{
+    margin-top:-10px;
+    padding:0;
+    width:850px;
+}
+
+.topUI{
+    padding-top:0;
+}
+
+.mdNumber{
+    width:20px;
+    height:20px;
+    position:absolute;
+    left:85px;
+    top:80px;
+    font-size:0.9em;
+}
+
+.dark{
+    background-color: #B8B8B8;
+}
+
+.monthEvent{
+    margin:auto;
+    width:90%;
+    height:18%;
+    margin-top:5px;
+    border-radius:5px;
+    overflow:hidden;
 }
