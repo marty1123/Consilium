@@ -506,3 +506,36 @@ textarea{
 .xDivider{
     position:absolute;
 }
+
+.weekDisplayBar{
+    margin:0px;
+    margin-left:50px;
+    padding:0;
+    width:825px;
+}
+
+.weekDisplayDayNames{
+    font-family:'Nunito', sans-serif;
+    font-weight:400;
+    margin:0;
+    width:109px;
+    margin-left:0.5%;
+    text-align:center;
+    color:#B3B3B3;
+    font-size:1.4em;
+}
+
+.weekNameBar{
+    position:sticky;
+    top:0;
+    background-color:#EFEFEF;
+    z-index:1;
+}
+
+.leftSideTime{
+    position:relative;
+}
+
+.timeUnit{
+    position:absolute;
+}
