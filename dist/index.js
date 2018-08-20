@@ -79,7 +79,7 @@ $(document).ready(()=>{
     currentDateStatic = currentYear + "," + currentMonth + "," + currentDate;
     console.log("currentDatestatic:" + currentDateStatic);
     //Calls the function to generate the mini upcoming dates
-    displayMonthEvents();
+    //displayMonthEvents();
     generateMiniUpcoming();
     generatePicker();
   }
@@ -137,7 +137,10 @@ $(document).ready(()=>{
     }
     generatePicker();
     $(".selectedDate").removeClass("selectedDate")
-    displayMonthEvents()
+
+    if (currentView == "eventView"){
+      displayMonthEvents()
+    }
 
   } 
   
@@ -152,7 +155,10 @@ $(document).ready(()=>{
     }
     generatePicker();
     $(".selectedDate").removeClass("selectedDate")
-    displayMonthEvents()
+    
+    if (currentView == "eventView"){
+      displayMonthEvents()
+    }
   }
   
   
@@ -497,7 +503,6 @@ function generateSelectEndDates(){
       var recursionCheck = true;
 
       for (i = 0; i <= currentList.ListTask.length - 1; i++){
-        console.log("TESTCOYURNTEUTIRESBNIHN")
         var startDate = currentList.ListTask[i]["startDate"];
           startDate = startDate.split("/");
           startDate = new Date(startDate[2] + "," + startDate[1] + "," + startDate[0]);
@@ -631,6 +636,7 @@ function generateSelectEndDates(){
 
   //Controls the displaying of Month events
   function displayMonthEvents(){
+    $(".viewTypeTitle").html("Month View")
     currentView = "monthView";
     $("#viewPane").html(monthViewTemplate);
     generatePicker();

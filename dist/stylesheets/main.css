@@ -498,3 +498,11 @@ textarea{
     border-radius:5px;
     overflow:hidden;
 }
+
+.svgHousing{
+    position:relative;
+}
+
+.xDivider{
+    position:absolute;
+}
