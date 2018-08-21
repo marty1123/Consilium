@@ -402,6 +402,7 @@ textarea{
     height:690px;
     overflow:scroll;
     overflow-x:hidden;
+    position:relative;
 }
 
 .listItem{
@@ -538,4 +539,35 @@ textarea{
 
 .timeUnit{
     position:absolute;
+}
+
+.weekEventHousing{
+    position:absolute;
+}
+
+.weekEventCol{
+    margin:0;
+    width:109px;
+    margin-left:5px;
+    text-align:center;
+}
+
+.sundayCol{
+}
+
+.mondayCol{
+}
+.tuesdayCol{
+}
+
+.wednesdayCol{
+}
+
+.thursdayCol{
+}
+
+.fridayCol{
+}
+
+.saturdayCol{
 }

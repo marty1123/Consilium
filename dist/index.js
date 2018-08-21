@@ -27,8 +27,6 @@ $(document).ready(()=>{
   }
 
   function createStandardList(cList){
-    //cList.Add("testName","testDescription","3/5/6","4/5/6","3:00","4:00","color");
-    //cList.Add("testName","testDescription","3/5/6","4/5/6","3:00","4:00","color");
     console.log(cList)
   }
 
@@ -79,9 +77,9 @@ $(document).ready(()=>{
     currentDateStatic = currentYear + "," + currentMonth + "," + currentDate;
     console.log("currentDatestatic:" + currentDateStatic);
     //Calls the function to generate the mini upcoming dates
-    //displayMonthEvents();
     generateMiniUpcoming();
     generatePicker();
+    //displayMonthEvents();
   }
 
   //This function controls most of the miniature date picker 
@@ -138,7 +136,7 @@ $(document).ready(()=>{
     generatePicker();
     $(".selectedDate").removeClass("selectedDate")
 
-    if (currentView == "eventView"){
+    if (currentView == "monthView"){
       displayMonthEvents()
     }
 
@@ -156,7 +154,7 @@ $(document).ready(()=>{
     generatePicker();
     $(".selectedDate").removeClass("selectedDate")
     
-    if (currentView == "eventView"){
+    if (currentView == "monthView"){
       displayMonthEvents()
     }
   }
