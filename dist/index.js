@@ -165,8 +165,6 @@ $(document).ready(()=>{
   $(".pickerDatesDisplay").click(function() {
     $(".selectedDate").removeClass("selectedDate");
 
-    console.log($(this).attr("id"));
-
     selectedDate = $(this).attr("id");
     innerHTML = $(this).html();
 
@@ -177,7 +175,7 @@ $(document).ready(()=>{
       $("#" + selectedDate).addClass("selectedDate");
     }
 
-    lastPick = this;
+    lastPick = $(this).text();
   })
 
   //This function prepares several drop down forms and information within the create event dialog
@@ -646,6 +644,7 @@ function generateSelectEndDates(){
     $("#monthButt").addClass("mdl-button--accent")
   }
 
+  //Function that generates the actual events for month view
   function generateEventsForDisplayMonth(){
     var currentList = JSON.parse(JSON.stringify(cList))
     currentList.ListTask.sort(compare);
@@ -682,6 +681,27 @@ function generateSelectEndDates(){
 
   $("#monthButt").click(displayMonthEvents)
 
+
+  //Function that controls all of the week view
+  function weekView(){
+    var day = currentYear;
+    var month = currentMonth;
+    var year = currentDate;
+
+    chosenDate = new Date(currentYear,currentMonth - 1,lastPick);
+    tomorrow = chosenDate;
+
+    displayDates = [];
+    displayDates.push(new Date(tomorrow.setDate(tomorrow.getDate())))
+    for(i = 0; i <= 5; i++){
+      displayDates.push(new Date(tomorrow.setDate(tomorrow.getDate()+1)))
+    }
+
+    console.log(displayDates)
+    console.log("Chosendate: ", chosenDate, "DAY 2 ", tomorrow)
+  }
+
+  $("#weekButt").click(weekView)
 
 })
 
