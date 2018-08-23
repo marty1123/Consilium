@@ -663,7 +663,7 @@ function generateSelectEndDates(){
         //console.log(startDate + "---" + displayDate)
 
         if (displayDate.getTime() == startDate.getTime()){
-          console.log("match Found!")
+          //console.log("match Found!")
 
           if (currentList.ListTask[i]["color"] == "222222"){
             content = '<div class="monthEvent mdl-shadow--2dp" style="color:white; background-color:#' + currentList.ListTask[i]["color"] + '">' + currentList.ListTask[i]["name"] + '</div>'
@@ -687,18 +687,95 @@ function generateSelectEndDates(){
     var day = currentYear;
     var month = currentMonth;
     var year = currentDate;
+    var daysOfTheWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+
+    var currentList = JSON.parse(JSON.stringify(cList))
+    currentList.ListTask.sort(compare);
 
     chosenDate = new Date(currentYear,currentMonth - 1,lastPick);
     tomorrow = chosenDate;
 
     displayDates = [];
     displayDates.push(new Date(tomorrow.setDate(tomorrow.getDate())))
+
     for(i = 0; i <= 5; i++){
       displayDates.push(new Date(tomorrow.setDate(tomorrow.getDate()+1)))
     }
 
-    console.log(displayDates)
-    console.log("Chosendate: ", chosenDate, "DAY 2 ", tomorrow)
+
+    //Generating the appropriate names of days within the week
+    for(i=0; i < 7; i++){
+      dayOfTheWeek = displayDates[i].getDay();
+      dayOfTheWeek = daysOfTheWeek[dayOfTheWeek]
+      $("#weekDay" + i).html(dayOfTheWeek)
+    }
+
+
+
+    //Generation of events to display in week view
+    for(x = 0; x < displayDates.length; x++){
+      for(i = 0; i < currentList.ListTask.length; i++ ){
+        var listDate = currentList.ListTask[i]["startDate"];
+        listDate = listDate.split("/");
+        listDate = new Date(listDate[2] + "," + listDate[1] + "," + listDate[0]);
+
+        if (listDate.getTime() == displayDates[x].getTime()){
+          console.log("match found")
+          var eventName = currentList.ListTask[i]["name"];
+          var eventColor = currentList.ListTask[i]["color"];
+          var top = currentList.ListTask[i]["startHour"]
+
+          if (top.indexOf('PM') > -1){
+            top = top.replace("PM","");
+            last2 = top.slice(-2)
+            if(last2 == "30"){
+              console.log("vanilla PMTOP: ",top)
+              top = parseInt(top)
+              top = top + 1200;
+              console.log("PM TOP: ",top)
+            } else {
+              console.log("vanilla PMTOP: ",top)
+              top = parseInt(top)
+              top = top + 1220;
+              console.log("PM TOP: ", top)
+            }
+          } else if (top.indexOf("AM") > -1){
+            top = top.replace("AM","");
+            last2 = top.slice(-2)
+            if(last2 == "30"){
+              console.log("vanilla AMTOP: ",top)
+              top = parseInt(top)
+              top = top + 20
+              console.log("AM TOP: ",top)
+            } else {
+              console.log("vanilla AMTOP: ",top)
+              top = parseInt(top)
+              console.log("AM TOP: ", top)
+            }
+          }
+          top = top / 2
+          console.log(top)
+
+
+
+          var content = "";
+          content = '<div class="weekEvent mdl-shadow--2dp" style=top:'+ top +'px;background-color:#'+ eventColor +'>' + eventName + '</div>'; 
+          $("#column" + x).append(content)
+
+
+        } else {
+          console.log(":(")
+        }
+      }
+    }
+
+    
+
+
+
+
+    //console.log(displayDates)
+    //console.log("Chosendate: ", chosenDate, "DAY 2 ", tomorrow)
   }
 
   $("#weekButt").click(weekView)
