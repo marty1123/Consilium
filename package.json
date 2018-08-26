@@ -2,7 +2,7 @@
   "name": "Consilium",
   "version": "1.0.0",
   "description": "Electron Calendar Project",
-  "main": "dist/main.js",
+  "main": "dist/javascript/main.js",
   "scripts": {
     "start": "electron ."
   },
@@ -16,6 +16,7 @@
     "electron-viewport": "^1.0.1",
     "getmdl-select": "^2.0.1",
     "jquery": "^3.3.1",
+    "jslint": "^0.12.0",
     "rcedit": "^1.1.0"
   }
 }

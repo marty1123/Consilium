@@ -31,9 +31,9 @@ $(document).ready(()=>{
     console.log(cList)
   }
 
-  console.log(JSON.parse(fs.readFileSync("dist/userData.json", "utf-8")));
+  console.log(JSON.parse(fs.readFileSync("dist/json/userData.json", "utf-8")));
   //var cList = new List();
-  var dataOutput = JSON.parse(fs.readFileSync('dist/userData.json', "utf-8"))
+  var dataOutput = JSON.parse(fs.readFileSync('dist/json/userData.json', "utf-8"))
   var cList = dataOutput;
   //createStandardList(cList);
   console.log(cList.ListTask);
@@ -63,8 +63,8 @@ $(document).ready(()=>{
   var eventEditCheck = false;
   var currentTag = 0;
 
-  var monthViewTemplate = fs.readFileSync('dist/monthViewTemplate.html', "utf-8");
-  var weekViewTemplate = fs.readFileSync('dist/weekTemplate.html', "utf-8");
+  var monthViewTemplate = fs.readFileSync('dist/views/monthViewTemplate.html', "utf-8");
+  var weekViewTemplate = fs.readFileSync('dist/views/weekTemplate.html', "utf-8");
 
   console.log("Test");
   var selectd = new Date();
@@ -455,7 +455,7 @@ function generateSelectEndDates(){
       }
 
       var dataInput = JSON.stringify(cList);
-      fs.writeFileSync('dist/userData.json', dataInput, 'utf-8');
+      fs.writeFileSync('dist/json/userData.json', dataInput, 'utf-8');
 
       console.log("NEW ARRAY ENTRY:", cList.ListTask)
       $("#eventName, #eventDescription").html("")
@@ -663,7 +663,7 @@ function generateSelectEndDates(){
 
   function saveCList(){
     var dataInput = JSON.stringify(cList);
-    fs.writeFileSync('dist/userData.json', dataInput, 'utf-8');
+    fs.writeFileSync('dist/json/userData.json', dataInput, 'utf-8');
   }
 
   $('body').on('click', '#deleteEvent', function () {
