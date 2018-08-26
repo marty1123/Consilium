@@ -59,6 +59,10 @@ $(document).ready(()=>{
 
   var currentView = "";
 
+  //Used to check if an event if being edited
+  var eventEditCheck = false;
+  var currentTag = 0;
+
   var monthViewTemplate = fs.readFileSync('dist/monthViewTemplate.html', "utf-8");
   var weekViewTemplate = fs.readFileSync('dist/weekTemplate.html', "utf-8");
 
@@ -216,13 +220,15 @@ $(document).ready(()=>{
 
     for (i = 1; i <= days; i++){
       combined = i + "/" + currentMonth + "/" + currentYear;
-      contents += '<li class="mdl-menu__item start'+ combined +'"  data-val=' + combined + '>' + combined + '</li>';
+      var dateClass = i + "" + currentMonth + "" + currentYear;
+      contents += '<li class="mdl-menu__item start'+ dateClass +'"  data-val=' + combined + '>' + combined + '</li>';
       $("#startYearCont").html(contents);
     }
 
     for (i = 1; i <= days; i++){
       combined = i + "/" + currentMonth + "/" + currentYear;
-      contents += '<li class="mdl-menu__item end'+ combined +'"  data-val=' + combined + '>' + combined + '</li>';
+      var dateClass = i + "" + currentMonth + "" + currentYear;
+      contents += '<li class="mdl-menu__item end'+ dateClass +'"  data-val=' + combined + '>' + combined + '</li>';
       $("#endYearCont").html(contents);
     }
 
@@ -439,6 +445,15 @@ function generateSelectEndDates(){
       generateTag();
 
       cList.ListTask.push(new ListItem(eventName, eventDescription, selectedStartDay, selectedEndDay, startHour, endHour, color, tag))
+
+      if (eventEditCheck == true){
+        for(i = 0; i < cList.ListTask.length; i++){
+          if (cList.ListTask[i]["tag"] == currentTag){
+            cList.ListTask.splice(i,1)
+          }
+        }
+      }
+
       var dataInput = JSON.stringify(cList);
       fs.writeFileSync('dist/userData.json', dataInput, 'utf-8');
 
@@ -641,6 +656,8 @@ function generateSelectEndDates(){
       displayMonthEvents();
     } else if (currentView == "dayView"){
       dayView();
+    } else if (currentView == "weekView"){
+      weekView();
     }
   }
 
@@ -945,17 +962,23 @@ function generateSelectEndDates(){
 
         //startClass = document.getElementsByClassName("start"+startMonth)
 
-        console.log(".start" + startDate)
+        
+
+        var startDateClass = startDate.replace("/","")
+        startDateClass = startDateClass.replace("/","")
+        //console.log(".start" + startDateClass)
 
         $("#eventName").val(name)
         $("#eventDescription").val(description)
-        //$('#' + 'start' + startDate).addClass("selected")
         $(".mdl-textfield").addClass("is-dirty")
+        //$(".start" + startDateClass).addClass("selected")
+        //$('[name="startYear"]').val(startDate)
 
         $(".mdl-dialog__title").html("Edit Event")
         dialog.showModal();
 
-        
+        currentTag = tag
+        eventEditCheck = true;
 
 
       }

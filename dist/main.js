@@ -11,9 +11,11 @@ var path = require('path')
     //var viewport = require('electron-viewport')(950, 1025, {resizable:false})
     //var win = viewport.getWindow()
 
-    win = new BrowserWindow({width: 970, height: 1025, minWidth: 970, icon: path.join(__dirname, 'dist/icon/64.png')})
+    win = new BrowserWindow({width: 970, height: 1025, minWidth: 970, icon: path.join(__dirname, 'dist/icon/64.ico')})
     
     win.loadFile('index.html')
+
+    win.webContents.openDevTools()
   
     win.on('closed', () => {
       win = null
@@ -33,6 +35,5 @@ var path = require('path')
       createWindow()
     }
 
-    
   })
   

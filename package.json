@@ -1,5 +1,5 @@
 {
-  "name": "electronproject",
+  "name": "Consilium",
   "version": "1.0.0",
   "description": "Electron Calendar Project",
   "main": "dist/main.js",
@@ -15,6 +15,7 @@
   "dependencies": {
     "electron-viewport": "^1.0.1",
     "getmdl-select": "^2.0.1",
-    "jquery": "^3.3.1"
+    "jquery": "^3.3.1",
+    "rcedit": "^1.1.0"
   }
 }
