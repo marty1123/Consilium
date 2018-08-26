@@ -3,6 +3,7 @@
 ////                                                                                                         ////
 
 const {app, BrowserWindow} = require('electron')
+var path = require('path')
   
   let win
   
@@ -10,7 +11,7 @@ const {app, BrowserWindow} = require('electron')
     //var viewport = require('electron-viewport')(950, 1025, {resizable:false})
     //var win = viewport.getWindow()
 
-    win = new BrowserWindow({width: 970, height: 1025, minWidth: 970})
+    win = new BrowserWindow({width: 970, height: 1025, minWidth: 970, icon: path.join(__dirname, 'dist/icon/64.png')})
     
     win.loadFile('index.html')
   
@@ -31,5 +32,7 @@ const {app, BrowserWindow} = require('electron')
     if (win === null) {
       createWindow()
     }
+
+    
   })
   

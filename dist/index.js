@@ -1,4 +1,5 @@
 var fs = require('fs');
+const ipc = require('electron').ipcRenderer
 
 $(document).ready(()=>{
 
@@ -59,6 +60,7 @@ $(document).ready(()=>{
   var currentView = "";
 
   var monthViewTemplate = fs.readFileSync('dist/monthViewTemplate.html', "utf-8");
+  var weekViewTemplate = fs.readFileSync('dist/weekTemplate.html', "utf-8");
 
   console.log("Test");
   var selectd = new Date();
@@ -79,7 +81,7 @@ $(document).ready(()=>{
     //Calls the function to generate the mini upcoming dates
     generateMiniUpcoming();
     generatePicker();
-    //displayMonthEvents();
+    displayMonthEvents();
   }
 
   //This function controls most of the miniature date picker 
@@ -161,7 +163,8 @@ $(document).ready(()=>{
   
   
   //This function controls selecting a date from the date picker
-  var lastPick = "";
+  var lastPick = new Date(currentDate);
+  lastPick = lastPick.getDate();
   $(".pickerDatesDisplay").click(function() {
     $(".selectedDate").removeClass("selectedDate");
 
@@ -176,12 +179,21 @@ $(document).ready(()=>{
     }
 
     lastPick = $(this).text();
+
+    if (currentView == "weekView"){
+      console.log("weekview refreshed")
+      weekView();
+    }
+
+    if (currentView == "dayView"){
+      dayView();
+    }
   })
 
   //This function prepares several drop down forms and information within the create event dialog
   //Also prepares the month selection buttons within create event dialog
 
-  $('body').on('click', '.createEventButt', function () {
+  function createEventButtModal(){
     console.log("createeventbutt clicked")
     startMonth = currentMonth;
     startYear = currentYear;
@@ -191,6 +203,8 @@ $(document).ready(()=>{
     $("#eventNameLabel").html("Event Name...");
     $("#eventDescription").val("")
     $("#eventDescriptionLabel").html("Event Description...");
+
+    $(".mdl-dialog__title").html("Create a new event")
 
     year = currentYear;
     month = currentMonth;
@@ -202,8 +216,14 @@ $(document).ready(()=>{
 
     for (i = 1; i <= days; i++){
       combined = i + "/" + currentMonth + "/" + currentYear;
-      contents += '<li class="mdl-menu__item" data-val=' + combined + '>' + combined + '</li>';
-      $("#startYearCont, #endYearCont").html(contents);
+      contents += '<li class="mdl-menu__item start'+ combined +'"  data-val=' + combined + '>' + combined + '</li>';
+      $("#startYearCont").html(contents);
+    }
+
+    for (i = 1; i <= days; i++){
+      combined = i + "/" + currentMonth + "/" + currentYear;
+      contents += '<li class="mdl-menu__item end'+ combined +'"  data-val=' + combined + '>' + combined + '</li>';
+      $("#endYearCont").html(contents);
     }
 
     //This function dynamically generates the times to display within create event
@@ -230,7 +250,9 @@ $(document).ready(()=>{
 
     //required to be triggered when lists are dynamically added
     getmdlSelect.init('.mdlRefreshTime, .mdlRefreshStart, .mdlRefreshEnd');
-  });
+  }
+
+  $('body').on('click', '.createEventButt', createEventButtModal);
 
   //Cycles through months within create event (for event starting month)
   $('body').on('click', '#eventStartMonthBack', function () {
@@ -412,19 +434,8 @@ function generateSelectEndDates(){
 
     //Confirms all data is correct and creates the event, adding it to the array of objects.
     if (dataValidity == true && dataInput == true){
-      var tag = 0;
+      var tag = generateTag()
       
-      //generates a unique identifying tag that is added to the event
-      function generateTag(){
-        tag = Math.floor(1000 + Math.random() * 9000);
-
-        for (i=0; i <= cList.ListTask.length - 1; i++){
-          if (tag == cList.ListTask[i]["tag"]){
-            generateTag();
-          }
-        }
-      }
-
       generateTag();
 
       cList.ListTask.push(new ListItem(eventName, eventDescription, selectedStartDay, selectedEndDay, startHour, endHour, color, tag))
@@ -488,6 +499,19 @@ function generateSelectEndDates(){
     }
     return 0;
   }
+
+  //generates a unique identifying tag that is added to the event
+  function generateTag(){
+    var tag = Math.floor(1000 + Math.random() * 9000);
+
+    for (i=0; i <= cList.ListTask.length - 1; i++){
+      if (tag == cList.ListTask[i]["tag"]){
+        generateTag();
+      }
+    }
+    return tag
+  }
+
   
 
   //Generate mini upcoming events
@@ -531,18 +555,31 @@ function generateSelectEndDates(){
       return diffDays
     }
 
+
     if(currentList.ListTask.length < 6){
+      var name = currentList.ListTask[i]["name"];
+      if (name.length > 20){
+        name = name.slice(0,19)
+      } 
+
+
       for(i = 0; i < currentList.ListTask.length; i++){
         var startDate = currentList.ListTask[i]["startDate"];
         startDate = startDate.split("/");
         startDate = new Date(startDate[2] + "," + startDate[1] + "," + startDate[0]);
-        $("#upcomingEvent"+(i+1)).html(currentList.ListTask[i]["name"]+ " - " + remainingDay(startDate) + " Days" + '<br>' + currentList.ListTask[i]["startDate"]);
+        $("#upcomingEvent"+(i+1)).html(name + " - " + remainingDay(startDate) + " Days" + '<br>' + currentList.ListTask[i]["startDate"]);
       }
     } else for(i = 0; i < 6; i++){
+
+        var name = currentList.ListTask[i]["name"];
+        if (name.length > 18){
+          name = name.slice(0,17)
+        } 
+
         var startDate = currentList.ListTask[i]["startDate"];
         startDate = startDate.split("/");
         startDate = new Date(startDate[2] + "," + startDate[1] + "," + startDate[0]);
-        $("#upcomingEvent"+(i+1)).html(currentList.ListTask[i]["name"]+ " - " + remainingDay(startDate) + " Days" + '<br>' + currentList.ListTask[i]["startDate"]);
+        $("#upcomingEvent"+(i+1)).html(name + " - " + remainingDay(startDate) + " Days" + '<br>' + currentList.ListTask[i]["startDate"]);
     }
   }
 
@@ -589,7 +626,7 @@ function generateSelectEndDates(){
         endHour = endHour[0] + endHour[1] + ":" + endHour[2] + endHour[3] + endHour[4] + endHour[5]
       }
 
-      content += '<li class="listItem mdl-list__item mdl-shadow--2dp"> <span class="mdl-list__item-primary-content eventNameDesc"> <div class="circle mdl-shadow--2dp" style=background-color:#' + currentList.ListTask[i]["color"] + '>&nbsp;</div>'
+      content += '<li class="listItem mdl-list__item mdl-shadow--2dp" value='+ currentList.ListTask[i]["tag"] +'> <span class="mdl-list__item-primary-content eventNameDesc"> <div class="circle mdl-shadow--2dp" style=background-color:#' + currentList.ListTask[i]["color"] + '>&nbsp;</div>'
       content += currentList.ListTask[i]["name"] + " - " + currentList.ListTask[i]["description"] + '</span>' + '<span class="mdl-list__item-primary-content">' + currentList.ListTask[i]["startDate"] + " - " + currentList.ListTask[i]["endDate"] + '</span>' + '<span class="mdl-list__item-primary-content">' + startHour + " - " + endHour;
       content += '<div id="deleteEvent" value="' + currentList.ListTask[i]["tag"] + '">&#10006;</div> </span> </li>'
     }
@@ -602,6 +639,8 @@ function generateSelectEndDates(){
       displayAllEvents();
     } else if (currentView == "monthView"){
       displayMonthEvents();
+    } else if (currentView == "dayView"){
+      dayView();
     }
   }
 
@@ -666,10 +705,10 @@ function generateSelectEndDates(){
           //console.log("match Found!")
 
           if (currentList.ListTask[i]["color"] == "222222"){
-            content = '<div class="monthEvent mdl-shadow--2dp" style="color:white; background-color:#' + currentList.ListTask[i]["color"] + '">' + currentList.ListTask[i]["name"] + '</div>'
+            content = '<div class="monthEvent mdl-shadow--2dp" value='+ currentList.ListTask[i]["tag"] +' style="color:white; background-color:#' + currentList.ListTask[i]["color"] + '">' + currentList.ListTask[i]["name"] + '</div>'
             $("#mdGrid" + (x + firstDay)).prepend(content);
           } else {
-            content = '<div class="monthEvent mdl-shadow--2dp" style="background-color:#' + currentList.ListTask[i]["color"] + '">' + currentList.ListTask[i]["name"] + '</div>'
+            content = '<div class="monthEvent mdl-shadow--2dp" value='+ currentList.ListTask[i]["tag"] +' style="background-color:#' + currentList.ListTask[i]["color"] + '">' + currentList.ListTask[i]["name"] + '</div>'
             $("#mdGrid" + (x + firstDay)).prepend(content);
           }
         }
@@ -684,9 +723,20 @@ function generateSelectEndDates(){
 
   //Function that controls all of the week view
   function weekView(){
-    var day = currentYear;
+
+    $(".viewTypeTitle").html("Week View")
+    currentView = "weekView"
+
+    $("#weekButt").addClass("mdl-button--accent")
+    $("#eventsButt").removeClass("mdl-button--accent")
+    $("#dayButt").removeClass("mdl-button--accent")
+    $("#monthButt").removeClass("mdl-button--accent")
+
+
+    $("#viewPane").html(weekViewTemplate)
+    var day = currentDate;
     var month = currentMonth;
-    var year = currentDate;
+    var year = currentYear;
     var daysOfTheWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
     var currentList = JSON.parse(JSON.stringify(cList))
@@ -707,7 +757,7 @@ function generateSelectEndDates(){
     for(i=0; i < 7; i++){
       dayOfTheWeek = displayDates[i].getDay();
       dayOfTheWeek = daysOfTheWeek[dayOfTheWeek]
-      $("#weekDay" + i).html(dayOfTheWeek)
+      $("#weekDay" + i).html(dayOfTheWeek + " "+ displayDates[i].getDate())
     }
 
 
@@ -723,62 +773,211 @@ function generateSelectEndDates(){
           console.log("match found")
           var eventName = currentList.ListTask[i]["name"];
           var eventColor = currentList.ListTask[i]["color"];
-          var top = currentList.ListTask[i]["startHour"]
+          var top = currentList.ListTask[i]["startHour"];
+          var end = currentList.ListTask[i]["endHour"];
 
-          if (top.indexOf('PM') > -1){
-            top = top.replace("PM","");
-            last2 = top.slice(-2)
-            if(last2 == "30"){
-              console.log("vanilla PMTOP: ",top)
-              top = parseInt(top)
-              top = top + 1200;
-              console.log("PM TOP: ",top)
-            } else {
-              console.log("vanilla PMTOP: ",top)
-              top = parseInt(top)
-              top = top + 1220;
-              console.log("PM TOP: ", top)
+          function timeFixer(hour){
+            if (hour.indexOf('PM') > -1){
+              hour = hour.replace("PM","");
+              if (parseInt(hour) >= 1200){
+                hour = parseInt(hour)
+              } else {
+                  last2 = hour.slice(-2)
+                if(last2 == "30"){
+                  hour = parseInt(hour) + 1220
+                } else {
+                  hour = parseInt(hour) + 1200;
+                }
+              }
+              
+            } else if (hour.indexOf("AM") > -1){
+              hour = hour.replace("AM","");
+  
+              if (parseInt(hour)>= 1200){
+                hour = parseInt(hour)+1200
+              } else {
+                  last2 = hour.slice(-2)
+                if(last2 == "30"){
+                  hour = parseInt(hour) + 20
+                } else {
+                  hour = parseInt(hour)
+                }
+              }
             }
-          } else if (top.indexOf("AM") > -1){
-            top = top.replace("AM","");
-            last2 = top.slice(-2)
-            if(last2 == "30"){
-              console.log("vanilla AMTOP: ",top)
-              top = parseInt(top)
-              top = top + 20
-              console.log("AM TOP: ",top)
-            } else {
-              console.log("vanilla AMTOP: ",top)
-              top = parseInt(top)
-              console.log("AM TOP: ", top)
-            }
+            return hour
           }
+          
+          hour = top
+          top = timeFixer(hour)
+          hour = end
+          end = timeFixer(hour)
+
+
           top = top / 2
+          end = end / 2
+          var duration = end - top
+          console.log(duration)
+        
           console.log(top)
 
 
 
           var content = "";
-          content = '<div class="weekEvent mdl-shadow--2dp" style=top:'+ top +'px;background-color:#'+ eventColor +'>' + eventName + '</div>'; 
+          content = '<div class="weekEvent mdl-shadow--2dp" value='+ currentList.ListTask[i]["tag"] +' style=height:'+ duration +'px;top:'+ top +'px;background-color:#'+ eventColor +'>' + eventName + '</div>'; 
           $("#column" + x).append(content)
 
 
-        } else {
-          console.log(":(")
         }
       }
     }
-
-    
-
-
-
-
-    //console.log(displayDates)
-    //console.log("Chosendate: ", chosenDate, "DAY 2 ", tomorrow)
   }
 
   $("#weekButt").click(weekView)
+
+
+
+
+
+  //Function that controls displaying all the events in a single day
+  function dayView(){
+    var noEventCheck = false;
+    var chosenDate = new Date(currentYear,currentMonth - 1,lastPick);
+
+    $("#weekButt").removeClass("mdl-button--accent")
+    $("#eventsButt").removeClass("mdl-button--accent")
+    $("#dayButt").addClass("mdl-button--accent")
+    $("#monthButt").removeClass("mdl-button--accent")
+
+
+    $(".viewTypeTitle").html("Day View")
+
+    currentView = "dayView";
+
+    var content = "";
+    var currentList = JSON.parse(JSON.stringify(cList))
+    currentList.ListTask.sort(compare);
+
+    var startHour = "";
+    var endHour = "";
+
+    content += '<ul class="mdl-list">'
+    
+    for (i = 0; i <= currentList.ListTask.length - 1; i++){
+
+      var startDate = currentList.ListTask[i]["startDate"];
+        startDate = startDate.split("/");
+        startDate = new Date(startDate[2] + "," + startDate[1] + "," + startDate[0]);
+
+      if (chosenDate.getTime() == startDate.getTime()){
+        noEventCheck = true;
+        startHour = currentList.ListTask[i]["startHour"]
+        endHour = currentList.ListTask[i]["endHour"]
+  
+        if (startHour.length == 5){
+          startHour = startHour.split("")
+          startHour = startHour[0] + ":" + startHour[1] + startHour[2] + startHour[3] + startHour[4]
+        } else {
+          startHour = startHour.split("")
+          startHour = startHour[0] + startHour[1] + ":" + startHour[2] + startHour[3] + startHour[4] + startHour[5]
+        }
+  
+        if (endHour.length == 5){
+          endHour = endHour.split("")
+          endHour = endHour[0] + ":" + endHour[1] + endHour[2] + endHour[3] + endHour[4]
+        } else {
+          endHour = endHour.split("")
+          endHour = endHour[0] + endHour[1] + ":" + endHour[2] + endHour[3] + endHour[4] + endHour[5]
+        }
+  
+        content += '<li class="listItem mdl-list__item mdl-shadow--2dp" value='+ currentList.ListTask[i]["tag"] +'> <span class="mdl-list__item-primary-content eventNameDesc"> <div class="circle mdl-shadow--2dp" style=background-color:#' + currentList.ListTask[i]["color"] + '>&nbsp;</div>'
+        content += currentList.ListTask[i]["name"] + " - " + currentList.ListTask[i]["description"] + '</span>' + '<span class="mdl-list__item-primary-content">' + currentList.ListTask[i]["startDate"] + " - " + currentList.ListTask[i]["endDate"] + '</span>' + '<span class="mdl-list__item-primary-content">' + startHour + " - " + endHour;
+        content += '<div id="deleteEvent" value="' + currentList.ListTask[i]["tag"] + '">&#10006;</div> </span> </li>'
+
+      }
+    }
+    content += '</ul>';
+    $("#viewPane").html(content)
+
+    if (noEventCheck == false){
+      console.log("no Events Today")
+      $("#viewPane").html('<div class="noEventsToday">No events today!</div>')
+    }
+  }
+
+  $("#dayButt").click(dayView)
+
+
+
+
+
+
+  function editEvent(tag){
+    console.log("EDITEVENTTAG: ", tag)
+    var currentList = JSON.parse(JSON.stringify(cList))
+    currentList.ListTask.sort(compare);
+
+    var name; var description; var startDate; var endDate; var startHour; var endHour; var color
+    var originalCurrentYear = currentYear;
+    var originalCurrentMonth = currentMonth;
+    var originalStartYear = startYear;
+    var originalStartMonth = startMonth;
+
+    for (i = 0; i < currentList.ListTask.length; i++){
+      if (currentList.ListTask[i]["tag"] == tag){
+        name = currentList.ListTask[i]["name"];
+        description = currentList.ListTask[i]["description"];
+        startDate = currentList.ListTask[i]["startDate"];
+        endDate = currentList.ListTask[i]["endDate"];
+        startHour = currentList.ListTask[i]["startHour"];
+        endHour = currentList.ListTask[i]["endHour"];
+        color = currentList.ListTask[i]["color"];
+
+
+        console.log("startDate: ",startDate)
+        var startDay = startDate.split("/");
+
+        currentYear = parseInt(startDay[2]);
+        currentMonth = parseInt(startDay[1]);
+        startYear = parseInt(startDay[2]);
+        startMonth = parseInt(startDay[1]);
+        generatePicker();
+        createEventButtModal();
+
+        //startClass = document.getElementsByClassName("start"+startMonth)
+
+        console.log(".start" + startDate)
+
+        $("#eventName").val(name)
+        $("#eventDescription").val(description)
+        //$('#' + 'start' + startDate).addClass("selected")
+        $(".mdl-textfield").addClass("is-dirty")
+
+        $(".mdl-dialog__title").html("Edit Event")
+        dialog.showModal();
+
+        
+
+
+      }
+    }
+
+  }
+
+  $('body').on('dblclick', '.listItem', function () {
+    var tag = this.getAttribute("value")
+    editEvent(tag)
+  })
+
+  $('body').on('dblclick', '.monthEvent', function () {
+    var tag = this.getAttribute("value")
+    editEvent(tag)
+  })
+
+  $('body').on('dblclick', '.weekEvent', function () {
+    var tag = this.getAttribute("value")
+    editEvent(tag)
+  })
+
 
 })
 

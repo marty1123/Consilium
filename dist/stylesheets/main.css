@@ -31,7 +31,7 @@ h6{
 
 .viewTypeTitle{
     margin:0;
-    width:100px;
+    width:150px;
     margin-right:430px;
 }
 
@@ -506,6 +506,7 @@ textarea{
 
 .xDivider{
     position:absolute;
+    z-index:0;
 }
 
 .weekDisplayBar{
@@ -523,14 +524,14 @@ textarea{
     margin-left:0.5%;
     text-align:center;
     color:#B3B3B3;
-    font-size:1.4em;
+    font-size:1.1em;
 }
 
 .weekNameBar{
     position:sticky;
     top:0;
     background-color:#EFEFEF;
-    z-index:1;
+    z-index:3;
 }
 
 .leftSideTime{
@@ -559,6 +560,19 @@ textarea{
 }
 
 .weekEvent{
-    width:107px;
+    margin-left:4px;
+    width:95px;
+    padding-left:2px;
+    padding-right:2px;
     position:absolute;
+    z-index:2;
+    border-radius:5px;
+    overflow:hidden;
+}
+
+.noEventsToday{
+    margin-top:20px;
+    margin-left:38%;
+    color:#B8B8B8;
+    font-size:2em;
 }
