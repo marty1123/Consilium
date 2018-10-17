@@ -14,14 +14,12 @@ var path = require('path')
     win = new BrowserWindow({width: 970, height: 1025, minWidth: 970, icon: path.join(__dirname, 'dist/icon/64.ico')})
     
     win.loadFile('dist/views/index.html')
-
-    win.webContents.openDevTools()
   
     win.on('closed', () => {
       win = null
     })
   }
-  
+
   app.on('ready', createWindow)
   
   app.on('window-all-closed', () => {

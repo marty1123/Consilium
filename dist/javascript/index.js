@@ -1,6 +1,8 @@
+//Variable / Constant for importing certain frameworks
 var fs = require('fs');
-const ipc = require('electron').ipcRenderer
+const remote = require('electron').remote;
 
+//Function to prevent the javascript from executing before DOM is loaded. 
 $(document).ready(()=>{
 
   //Creates the class ListItem
@@ -17,7 +19,7 @@ $(document).ready(()=>{
     })
   }
 
-  //List Class
+  //List Class for the array of objects
   function List(){
     this.ListTask = [];
     
@@ -31,16 +33,12 @@ $(document).ready(()=>{
     console.log(cList)
   }
 
-  console.log(JSON.parse(fs.readFileSync("dist/json/userData.json", "utf-8")));
-  //var cList = new List();
-  var dataOutput = JSON.parse(fs.readFileSync('dist/json/userData.json', "utf-8"))
+  console.log(JSON.parse(fs.readFileSync("dist/javascript/userData.json", "utf-8")));
+  var dataOutput = JSON.parse(fs.readFileSync('dist/javascript/userData.json', "utf-8"))
   var cList = dataOutput;
-  //createStandardList(cList);
   console.log(cList.ListTask);
-  //localStorage.setItem("cList", JSON.stringify(cList));
-  //cList.ListTask.splice(0,2);
 
-  //Delcaration for several universal veriables required with date calcuation  
+  //Delcaration of several universal veriables required with date calcuation and for use with several functions.  
   var d = 0;
   var currentDate = 0;
   var currentMonth = 0;
@@ -85,6 +83,7 @@ $(document).ready(()=>{
     //Calls the function to generate the mini upcoming dates
     generateMiniUpcoming();
     generatePicker();
+    //Calls the default view of Month event view
     displayMonthEvents();
   }
 
@@ -145,7 +144,6 @@ $(document).ready(()=>{
     if (currentView == "monthView"){
       displayMonthEvents()
     }
-
   } 
   
   //Calls the function removePickerMonth when the left play button is clicked
@@ -218,6 +216,7 @@ $(document).ready(()=>{
 
     $("#eventStartMonth , #eventEndMonth").html(currentMonthName + " " + currentYear)
 
+    //These two loops generate the drop down lists within the dialog
     for (i = 1; i <= days; i++){
       combined = i + "/" + currentMonth + "/" + currentYear;
       var dateClass = i + "" + currentMonth + "" + currentYear;
@@ -343,8 +342,6 @@ function generateSelectEndDates(){
 }
 
 
-//
-
 //Clears values associated with create month dialog
   $('body').on('click', '#closeDialog', function () {
     console.log("dialogCLOSED")
@@ -388,13 +385,9 @@ function generateSelectEndDates(){
     var endDay = new Date(endDay[1] + "/" + endDay[0] + "/" + endDay[2]);
     console.log("ENDDAYDATE: ", endDay);
 
-
-
     if (startDay > endDay){
       console.log("Problem Detected")
       dataValidity = false;
-      
-
 
       if (dataValidity == true){
         if (startHour.substring(startHour.length -2, startHour.length) == "PM"){
@@ -424,12 +417,10 @@ function generateSelectEndDates(){
         } else if (startHour < endHour){
           dataValidity = true;
         }
-
       }
-
-      
     }
 
+    //Final check on boolean statements to confirm whether data is valid or not
     if (dataValidity == false && dataInput == false){
       $("#validityWarning").html("Area left blank and invalid date")
     } else if (dataValidity == false){
@@ -455,7 +446,7 @@ function generateSelectEndDates(){
       }
 
       var dataInput = JSON.stringify(cList);
-      fs.writeFileSync('dist/json/userData.json', dataInput, 'utf-8');
+      fs.writeFileSync('dist/javascript/userData.json', dataInput, 'utf-8');
 
       console.log("NEW ARRAY ENTRY:", cList.ListTask)
       $("#eventName, #eventDescription").html("")
@@ -531,13 +522,15 @@ function generateSelectEndDates(){
 
   //Generate mini upcoming events
   function generateMiniUpcoming() {
+    console.log("cList TESTTET"+ cList)
     var currentList = JSON.parse(JSON.stringify(cList))
+    console.log(currentList)
     
-    //Checks to make sure date is after current date
+    //Checks to make sure the user inputted date is after current date
     function checkDateAfterCurrent(){
       var recursionCheck = true;
 
-      for (i = 0; i <= currentList.ListTask.length - 1; i++){
+      for (i = 0; i < currentList.ListTask.length; i++){
         var startDate = currentList.ListTask[i]["startDate"];
           startDate = startDate.split("/");
           startDate = new Date(startDate[2] + "," + startDate[1] + "," + startDate[0]);
@@ -572,13 +565,14 @@ function generateSelectEndDates(){
 
 
     if(currentList.ListTask.length < 6){
-      var name = currentList.ListTask[i]["name"];
+    
+
+      //Generates the HTML / CSS to display the upcoming events
+      for(i = 0; i < currentList.ListTask.length; i++){
+        var name = currentList.ListTask[i]["name"];
       if (name.length > 20){
         name = name.slice(0,19)
-      } 
-
-
-      for(i = 0; i < currentList.ListTask.length; i++){
+       } 
         var startDate = currentList.ListTask[i]["startDate"];
         startDate = startDate.split("/");
         startDate = new Date(startDate[2] + "," + startDate[1] + "," + startDate[0]);
@@ -598,7 +592,7 @@ function generateSelectEndDates(){
     }
   }
 
-
+//Function used to sort and display an entire list of all the user created events
   function displayAllEvents(){
 
     $("#weekButt").removeClass("mdl-button--accent")
@@ -649,6 +643,8 @@ function generateSelectEndDates(){
     $("#viewPane").html(content)
   }
 
+
+  //Function called to reload certain views. Often used to display newly added / removed events
   function viewRefresh(){
     if (currentView == "eventView"){
       displayAllEvents();
@@ -661,9 +657,10 @@ function generateSelectEndDates(){
     }
   }
 
+  //Function that will save the array of objects to a JSON file.
   function saveCList(){
     var dataInput = JSON.stringify(cList);
-    fs.writeFileSync('dist/json/userData.json', dataInput, 'utf-8');
+    fs.writeFileSync('dist/javascript/userData.json', dataInput, 'utf-8');
   }
 
   $('body').on('click', '#deleteEvent', function () {
@@ -680,8 +677,6 @@ function generateSelectEndDates(){
     generateMiniUpcoming();
     document.getElementById("eventSnackbar").MaterialSnackbar.showSnackbar({"message":"Event Removed"});
   })
-
-
 
   $("#eventsButt").click(displayAllEvents)
 
@@ -738,7 +733,7 @@ function generateSelectEndDates(){
   $("#monthButt").click(displayMonthEvents)
 
 
-  //Function that controls all of the week view
+  //Function that controls all of the week view. Displays vertically on a grid with days in the week
   function weekView(){
 
     $(".viewTypeTitle").html("Week View")
@@ -842,17 +837,12 @@ function generateSelectEndDates(){
           var content = "";
           content = '<div class="weekEvent mdl-shadow--2dp" value='+ currentList.ListTask[i]["tag"] +' style=height:'+ duration +'px;top:'+ top +'px;background-color:#'+ eventColor +'>' + eventName + '</div>'; 
           $("#column" + x).append(content)
-
-
         }
       }
     }
   }
 
   $("#weekButt").click(weekView)
-
-
-
 
 
   //Function that controls displaying all the events in a single day
@@ -924,10 +914,7 @@ function generateSelectEndDates(){
   $("#dayButt").click(dayView)
 
 
-
-
-
-
+//Function used to edit and redisplay existing events. Works in all views
   function editEvent(tag){
     console.log("EDITEVENTTAG: ", tag)
     var currentList = JSON.parse(JSON.stringify(cList))
@@ -979,13 +966,13 @@ function generateSelectEndDates(){
 
         currentTag = tag
         eventEditCheck = true;
-
-
       }
     }
 
   }
 
+
+  //Mutiple event listeners to trigger the edit event function
   $('body').on('dblclick', '.listItem', function () {
     var tag = this.getAttribute("value")
     editEvent(tag)
@@ -1000,8 +987,6 @@ function generateSelectEndDates(){
     var tag = this.getAttribute("value")
     editEvent(tag)
   })
-
-
 })
 
 
